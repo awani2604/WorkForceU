@@ -1,0 +1,14 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Environment
+.env
+**/.env
+
+# Build
+dist
+Frontend/dist
+
+# Logs
+*.loggit status

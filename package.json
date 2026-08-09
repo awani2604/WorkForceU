@@ -1,0 +1,35 @@
+{
+  "name": "workforce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "setup": "npm install --prefix Frontend && npm install --prefix Backend",
+    "frontend": "npm run dev --prefix Frontend",
+    "backend": "npm run dev --prefix Backend",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awani2604/Workforce.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/awani2604/Workforce/issues"
+  },
+  "homepage": "https://github.com/awani2604/Workforce#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "axios": "^1.19.0",
+    "lucide-react": "^1.28.0",
+    "react-hot-toast": "^2.6.0",
+    "react-router-dom": "^7.18.2",
+    "tailwindcss": "^4.3.3"
+  }
+}
