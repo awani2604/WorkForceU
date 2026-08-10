@@ -65,7 +65,7 @@ export const WorkerProfilePage = () => {
               <MessageSquare className="w-4 h-4 text-[#2E6FB0]" />
               Verified Customer Reviews ({worker.reviewsCount || 142})
             </h3>
-            <p className="text-xs text-gray-500">Only clients who completed verified jobs through SkillBridge can review</p>
+            <p className="text-xs text-gray-500">Only clients who completed verified jobs through WorkForce can review</p>
           </div>
           <div className="flex items-center gap-2">
             <RatingStars rating={worker.rating} size="md" />

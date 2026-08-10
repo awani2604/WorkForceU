@@ -230,7 +230,7 @@ export const BookWorkerPage = () => {
                 className="mt-0.5 rounded text-[#1D8C6C] focus:ring-[#1D8C6C]"
               />
               <label htmlFor="escrow" className="text-xs text-emerald-900 leading-tight">
-                <strong>SkillBridge Escrow Protection:</strong> Funds remain securely locked in escrow and are only released to the worker once you approve job completion.
+                <strong>WorkForceU Escrow Protection:</strong> Funds remain securely locked in escrow and are only released to the worker once you approve job completion.
               </label>
             </div>
 

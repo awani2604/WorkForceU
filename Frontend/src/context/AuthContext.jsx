@@ -6,7 +6,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   // Roles: 'customer' | 'professional' | 'trainee' | 'admin' | null
   const [currentUser, setCurrentUser] = useState(() => {
-    const saved = localStorage.getItem("skillbridge_user");
+    const saved = localStorage.getItem("WorkForceU_user");
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -30,9 +30,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (currentUser) {
-      localStorage.setItem("skillbridge_user", JSON.stringify(currentUser));
+      localStorage.setItem("WorkForceU_user", JSON.stringify(currentUser));
     } else {
-      localStorage.removeItem("skillbridge_user");
+      localStorage.removeItem("WorkForceU_user");
     }
   }, [currentUser]);
 
@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setCurrentUser(null);
-    localStorage.removeItem("skillbridge_user");
+    localStorage.removeItem("WorkForceU_user");
   };
 
   return (

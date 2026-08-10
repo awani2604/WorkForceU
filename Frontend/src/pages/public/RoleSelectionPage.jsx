@@ -48,7 +48,7 @@ export const RoleSelectionPage = () => {
 
   const handleContinue = () => {
     switchRole(selectedRole);
-    addToast(`Entering SkillBridge as ${selectedRole.toUpperCase()}`, "success");
+    addToast(`Entering WorkForce as ${selectedRole.toUpperCase()}`, "success");
     if (selectedRole === "customer") navigate("/customer/dashboard");
     else if (selectedRole === "professional") navigate("/professional/dashboard");
     else if (selectedRole === "trainee") navigate("/trainee/dashboard");
@@ -66,7 +66,7 @@ export const RoleSelectionPage = () => {
               Step 1 of 2: Profile Selection
             </span>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[#141821] mt-1">
-              How would you like to use SkillBridge India?
+              How would you like to use WorkForce India?
             </h1>
             <p className="text-sm text-gray-600 max-w-lg mx-auto mt-2">
               Select your primary role. You can switch between roles at any time from your workspace.

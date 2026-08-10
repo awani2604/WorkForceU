@@ -63,9 +63,9 @@ export const LoginPage = () => {
           {/* Header */}
           <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-12 h-12 rounded bg-[#141821] text-white font-black text-sm mb-3">
-              SBI
+              WF
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-[#141821]">Sign in to SkillBridge</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-[#141821]">Sign in to WorkForce</h1>
             <p className="text-xs text-gray-500 mt-1">
               Access your Digital Skill Passport & workforce orders
             </p>

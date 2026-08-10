@@ -7,6 +7,13 @@
 
   /* Theme Color Palette - Solid Colors */
   --color-primary-dark: #141821;
+
+  /* Primary brand accent — orange (used across buttons, links, highlights) */
+  --color-brand-orange: #E8632A;
+  --color-brand-orange-hover: #D4551F;
+  --color-brand-orange-light: #FFF3EB;
+
+  /* Legacy / module accent colors — kept for role-based badges (Customer / Trainee / Admin) */
   --color-rust: #C1502E;
   --color-rust-hover: #A74123;
   --color-yellow: #F2B705;
@@ -16,9 +23,13 @@
   --color-trainee-teal-hover: #167056;
   --color-admin-purple: #7C6BC4;
   --color-admin-purple-hover: #6755B1;
+
+  /* Backgrounds */
   --color-bg-sand: #F7F4EA;
   --color-bg-light-blue: #EAF1FB;
+  --color-bg-orange-tint: #FFF8F1;
   --color-surface: #FFFFFF;
+
   --color-border-subtle: #E2E8F0;
   --color-border-strong: #141821;
 }
@@ -30,7 +41,7 @@
 
 body {
   margin: 0;
-  background-color: #F7F4EA;
+  background-color: #FFFFFF;
   color: #141821;
   font-family: var(--font-sans);
   min-height: 100vh;
@@ -52,6 +63,10 @@ body {
 
 .shadow-brutal-lg {
   box-shadow: 6px 6px 0px #141821;
+}
+
+.shadow-brutal-orange {
+  box-shadow: 3px 3px 0px #E8632A;
 }
 
 .shadow-brutal-rust {
@@ -86,7 +101,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F7F4EA;
+  background: #FFFFFF;
   border-left: 1px solid #E2E8F0;
 }
 
@@ -96,5 +111,5 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C1502E;
+  background: #E8632A;
 }

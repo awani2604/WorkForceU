@@ -77,7 +77,7 @@ export const OtpVerificationPage = () => {
       const res = verifyOtp(code);
       if (res.success) {
         setIsSuccess(true);
-        addToast("Mobile verified! Welcome to SkillBridge India.", "success");
+        addToast("Mobile verified! Welcome to WorkForceU India.", "success");
         setTimeout(() => {
           if (role === "customer") navigate("/customer/dashboard");
           else if (role === "professional") navigate("/professional/dashboard");

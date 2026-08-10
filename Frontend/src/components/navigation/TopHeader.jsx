@@ -4,38 +4,16 @@ import {
   Search,
   Bell,
   Menu,
-  X,
   ChevronDown,
-  ShieldCheck,
-  User,
   LogOut,
-  Sparkles
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { useToast } from "../../context/ToastContext";
 
 export const TopHeader = ({ onToggleMobileSidebar, role = "customer" }) => {
-  const { currentUser, switchRole, logout } = useAuth();
-  const { addToast } = useToast();
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-
-  const handleRoleChange = (newRole) => {
-    switchRole(newRole);
-    addToast(`Switched active view to ${newRole.toUpperCase()} mode`, "info");
-    if (newRole === "customer") navigate("/customer/dashboard");
-    else if (newRole === "professional") navigate("/professional/dashboard");
-    else if (newRole === "trainee") navigate("/trainee/dashboard");
-    else if (newRole === "admin") navigate("/admin/dashboard");
-  };
-
-  const roleThemeBadge = {
-    customer: { bg: "bg-[#2E6FB0]", label: "Customer" },
-    professional: { bg: "bg-[#C1502E]", label: "Professional" },
-    trainee: { bg: "bg-[#1D8C6C]", label: "Trainee" },
-    admin: { bg: "bg-[#7C6BC4]", label: "Admin" }
-  }[role] || { bg: "bg-gray-700", label: "User" };
 
   return (
     <header className="sticky top-0 z-30 bg-[#141821] text-white border-b border-gray-800">
@@ -53,18 +31,14 @@ export const TopHeader = ({ onToggleMobileSidebar, role = "customer" }) => {
 
             <Link to="/" className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded bg-[#C1502E] flex items-center justify-center font-black text-white text-xs tracking-wider">
-                SBI
+                WF
               </div>
               <div className="hidden sm:block">
                 <span className="text-sm font-extrabold text-white flex items-center gap-1">
-                  SkillBridge <span className="text-[#C1502E]">India</span>
+                  WorkForceU <span className="text-[#C1502E]">India</span>
                 </span>
               </div>
             </Link>
-
-            <span className={`text-[11px] font-bold text-white px-2 py-0.5 rounded ${roleThemeBadge.bg} ml-2 hidden sm:inline-block`}>
-              {roleThemeBadge.label} View
-            </span>
           </div>
 
           {/* Center: Search input */}
@@ -79,45 +53,8 @@ export const TopHeader = ({ onToggleMobileSidebar, role = "customer" }) => {
             </div>
           </div>
 
-          {/* Right: Role Switcher Quick Pills & Profile */}
+          {/* Right: Notification + Profile — no role switcher */}
           <div className="flex items-center gap-2 sm:gap-4">
-            {/* Quick Role Switcher Pills for Instant Testing */}
-            <div className="hidden lg:flex items-center bg-[#1e2330] p-1 rounded-lg border border-gray-800 text-xs">
-              <span className="text-[11px] font-semibold text-gray-400 px-2">Role:</span>
-              <button
-                onClick={() => handleRoleChange("customer")}
-                className={`px-2.5 py-1 rounded text-xs font-medium cursor-pointer transition ${
-                  role === "customer" ? "bg-[#2E6FB0] text-white" : "text-gray-300 hover:text-white"
-                }`}
-              >
-                Customer
-              </button>
-              <button
-                onClick={() => handleRoleChange("professional")}
-                className={`px-2.5 py-1 rounded text-xs font-medium cursor-pointer transition ${
-                  role === "professional" ? "bg-[#C1502E] text-white" : "text-gray-300 hover:text-white"
-                }`}
-              >
-                Professional
-              </button>
-              <button
-                onClick={() => handleRoleChange("trainee")}
-                className={`px-2.5 py-1 rounded text-xs font-medium cursor-pointer transition ${
-                  role === "trainee" ? "bg-[#1D8C6C] text-white" : "text-gray-300 hover:text-white"
-                }`}
-              >
-                Trainee
-              </button>
-              <button
-                onClick={() => handleRoleChange("admin")}
-                className={`px-2.5 py-1 rounded text-xs font-medium cursor-pointer transition ${
-                  role === "admin" ? "bg-[#7C6BC4] text-white" : "text-gray-300 hover:text-white"
-                }`}
-              >
-                Admin
-              </button>
-            </div>
-
             {/* Notification Bell */}
             <div className="relative">
               <button

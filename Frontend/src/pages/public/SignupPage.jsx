@@ -35,7 +35,7 @@ export const SignupPage = () => {
       return;
     }
     if (!agreeTerms) {
-      setError("You must agree to SkillBridge terms and code of conduct.");
+      setError("You must agree to WorkForce terms and code of conduct.");
       return;
     }
 
@@ -53,9 +53,9 @@ export const SignupPage = () => {
         <div className="w-full max-w-md bg-white rounded-lg border border-gray-200 shadow-card p-6 sm:p-8">
           <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-12 h-12 rounded bg-[#C1502E] text-white font-black text-sm mb-3">
-              SBI
+              WF
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-[#141821]">Create SkillBridge Account</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-[#141821]">Create WorkForce Account</h1>
             <p className="text-xs text-gray-500 mt-1">
               Join India's verified technical workforce ecosystem
             </p>
@@ -158,7 +158,7 @@ export const SignupPage = () => {
                 className="mt-0.5 rounded text-[#C1502E] focus:ring-[#C1502E]"
               />
               <label htmlFor="terms" className="text-xs text-gray-600 leading-tight">
-                I agree to the SkillBridge India Code of Conduct, Aadhaar verification consent & Terms of Service.
+                I agree to the WorkForce India Code of Conduct, Aadhaar verification consent & Terms of Service.
               </label>
             </div>
 

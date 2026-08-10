@@ -1,4 +1,4 @@
-// Centralized Mock Data for SkillBridge India
+// Centralized Mock Data for WorkForceU India
 
 export const SKILL_LEVELS = [
   { level: 0, title: "Untrained", description: "Entry-level novice with no formal technical training." },
@@ -45,7 +45,7 @@ export const MOCK_WORKERS = [
     apprenticeshipHours: 320,
     certifications: [
       { name: "National Trade Certificate (NTC) - Electrician", issuer: "NCVT India", year: "2019", verified: true },
-      { name: "SkillBridge Level 4 Senior Certification", issuer: "SkillBridge India", year: "2024", verified: true },
+      { name: "WorkForceU Level 4 Senior Certification", issuer: "WorkForceU India", year: "2024", verified: true },
       { name: "Industrial High-Voltage Safety Protocol", issuer: "NSDC", year: "2022", verified: true }
     ],
     jobHistory: [
@@ -81,7 +81,7 @@ export const MOCK_WORKERS = [
     apprenticeshipHours: 400,
     certifications: [
       { name: "Master Masonry & Structural Safety", issuer: "CSDCI", year: "2018", verified: true },
-      { name: "SkillBridge Level 5 Supervisor License", issuer: "SkillBridge India", year: "2023", verified: true }
+      { name: "WorkForceU Level 5 Supervisor License", issuer: "WorkForceU India", year: "2023", verified: true }
     ],
     jobHistory: [
       { title: "G+2 Residential Boundary & Brickwork", client: "Anand Singhania", date: "Feb 2026", duration: "14 days", rating: 5 },
@@ -114,7 +114,7 @@ export const MOCK_WORKERS = [
     apprenticeshipHours: 300,
     certifications: [
       { name: "ITI Plumbing Trade Certificate", issuer: "DGT Maharashtra", year: "2021", verified: true },
-      { name: "SkillBridge Level 3 Skilled Plumber", issuer: "SkillBridge India", year: "2024", verified: true }
+      { name: "WorkForce Level 3 Skilled Plumber", issuer: "WorkForceU India", year: "2024", verified: true }
     ],
     jobHistory: [
       { title: "Master Bathroom Concealed Diverter Installation", client: "Sneha Kapadia", date: "Jan 2026", duration: "2 days", rating: 4.8 },
@@ -146,7 +146,7 @@ export const MOCK_WORKERS = [
     skills: ["Wall Putty & Surface Leveling", "Royale Luxury Emulsion & Texture", "Exterior Damp-Proof Coating", "PU & Melamine Wood Polish"],
     apprenticeshipHours: 300,
     certifications: [
-      { name: "SkillBridge Level 3 Certified Painter", issuer: "SkillBridge India", year: "2023", verified: true }
+      { name: "WorkForce Level 3 Certified Painter", issuer: "WorkForce India", year: "2023", verified: true }
     ],
     jobHistory: [
       { title: "3BHK Full Interior Painting & Texture Wall", client: "Debashis Sen", date: "Feb 2026", duration: "6 days", rating: 5 }
@@ -178,7 +178,7 @@ export const MOCK_WORKERS = [
     apprenticeshipHours: 350,
     certifications: [
       { name: "Furniture & Fittings Guild Certificate", issuer: "FFSC India", year: "2020", verified: true },
-      { name: "SkillBridge Level 4 Senior Carpenter", issuer: "SkillBridge India", year: "2024", verified: true }
+      { name: "WorkForceU Level 4 Senior Carpenter", issuer: "WorkForceU India", year: "2024", verified: true }
     ],
     jobHistory: [
       { title: "Complete Modular Kitchen & Wardrobe Setup", client: "Jaspreet Kaur", date: "Jan 2026", duration: "7 days", rating: 5 }
@@ -210,7 +210,7 @@ export const MOCK_WORKERS = [
     apprenticeshipHours: 500,
     certifications: [
       { name: "Registered Class-A Civil Contractor", issuer: "Govt of Telangana", year: "2016", verified: true },
-      { name: "SkillBridge Level 6 Master Contractor", issuer: "SkillBridge India", year: "2023", verified: true }
+      { name: "WorkForceU Level 6 Master Contractor", issuer: "WorkForce India", year: "2023", verified: true }
     ],
     jobHistory: [
       { title: "Commercial IT Park Cafeteria Fitout", client: "Cyient Tech Park", date: "Jan 2026", duration: "25 days", rating: 5 }
@@ -242,7 +242,7 @@ export const MOCK_WORKERS = [
     apprenticeshipHours: 300,
     certifications: [
       { name: "Commercial Heavy Transport License", issuer: "Delhi Transport Authority", year: "2019", verified: true },
-      { name: "SkillBridge Certified Driver Level 3", issuer: "SkillBridge India", year: "2024", verified: true }
+      { name: "WorkForce Certified Driver Level 3", issuer: "WorkForce India", year: "2024", verified: true }
     ],
     jobHistory: [
       { title: "Interstate Construction Material Transit", client: "Shree Ram Infratech", date: "Feb 2026", duration: "3 days", rating: 5 }
@@ -273,7 +273,7 @@ export const MOCK_WORKERS = [
     skills: ["Basic Wire Stripping & Jointing", "Conduit Channel Cutting", "Multimeter Voltage Testing", "Site Safety Setup"],
     apprenticeshipHours: 210,
     certifications: [
-      { name: "Digital Electrical Safety Module Pass", issuer: "SkillBridge India", year: "2025", verified: true }
+      { name: "Digital Electrical Safety Module Pass", issuer: "WorkForce India", year: "2025", verified: true }
     ],
     jobHistory: [
       { title: "Apartment Rewiring Assistance (Under Supervisor)", client: "Rameshwar Sharma", date: "Jan 2026", duration: "5 days", rating: 4.8 }
@@ -672,7 +672,7 @@ export const MOCK_TRAINEE_PROFILE = {
   id: "tr-901",
   name: "Bablu Paswan",
   phone: "+91 91234 56780",
-  email: "bablu.paswan@skillbridge.in",
+  email: "bablu.paswan@WorkForce.in",
   photo: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=300&fit=crop&crop=faces&q=80",
   trade: "Electrician",
   currentLevel: 1,
@@ -690,7 +690,7 @@ export const MOCK_TRAINEE_PROFILE = {
   quizPassed: true,
   quizScore: 80, // %
   certifications: [
-    { id: "cert-01", name: "Foundation in Domestic Electrical Safety", date: "15 Jan 2026", issuer: "SkillBridge India", certNo: "SBI-EL-2026-9018", status: "Verified" },
+    { id: "cert-01", name: "Foundation in Domestic Electrical Safety", date: "15 Jan 2026", issuer: "WorkForce India", certNo: "WF-EL-2026-9018", status: "Verified" },
     { id: "cert-02", name: "National Apprenticeship Training Enrollment", date: "02 Feb 2026", issuer: "NSDC Skill India", certNo: "NATS-DL-88219", status: "Verified" }
   ]
 };

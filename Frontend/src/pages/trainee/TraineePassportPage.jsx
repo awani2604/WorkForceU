@@ -66,7 +66,7 @@ export const TraineePassportPage = () => {
         <div className="bg-[#141821] text-white px-5 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-gray-800">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded bg-[#1D8C6C] flex items-center justify-center font-black text-white text-xs tracking-wider">
-              SBI
+              
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -85,7 +85,7 @@ export const TraineePassportPage = () => {
 
           <div className="flex items-center gap-2 text-xs font-mono text-gray-300 bg-[#252b3b] px-3 py-1 rounded border border-gray-700">
             <QrCode className="w-3.5 h-3.5 text-[#F2B705]" />
-            <span>ID: SBI-TR-901</span>
+            <span>ID: WF-TR-901</span>
           </div>
         </div>
 

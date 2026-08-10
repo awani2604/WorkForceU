@@ -1,17 +1,13 @@
 import React from "react";
 import {
   ShieldCheck,
-  Star,
   Clock,
   Briefcase,
   Award,
   CheckCircle2,
   QrCode,
   MapPin,
-  Calendar,
-  Phone,
   FileCheck2,
-  ExternalLink
 } from "lucide-react";
 import { LevelLadder } from "./LevelLadder";
 import { RatingStars } from "../common/RatingStars";
@@ -32,7 +28,7 @@ export const SkillPassport = ({
       <div className="bg-[#141821] text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 border-b border-gray-800">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded bg-[#C1502E] flex items-center justify-center font-black text-white text-xs tracking-wider">
-            SBI
+            WF
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -51,7 +47,7 @@ export const SkillPassport = ({
 
         <div className="flex items-center gap-2 text-xs font-mono text-gray-300 bg-[#252b3b] px-3 py-1 rounded border border-gray-700">
           <QrCode className="w-3.5 h-3.5 text-[#F2B705]" />
-          <span>ID: SBI-{worker.id?.toUpperCase() || "W-101"}</span>
+          <span>ID: WF-{worker.id?.toUpperCase() || "W-101"}</span>
         </div>
       </div>
 
@@ -243,7 +239,7 @@ export const SkillPassport = ({
             <div>
               <p className="font-bold text-[#141821]">Tamper-Proof Digital Verification</p>
               <p className="text-gray-600 text-[11px]">
-                Scan QR or lookup ID <span className="font-mono font-bold">SBI-{worker.id?.toUpperCase()}</span> to verify certificates on the national registry.
+                Scan QR or lookup ID <span className="font-mono font-bold">WF-{worker.id?.toUpperCase()}</span> to verify certificates on the national registry.
               </p>
             </div>
           </div>

@@ -1,384 +1,206 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Users,
-  Plus,
-  Minus,
-  Trash2,
-  CheckCircle2,
-  ShieldCheck,
-  Calculator,
-  ArrowRight,
-  Sparkles,
-  Calendar,
-  DollarSign
-} from "lucide-react";
-import { PageHeader } from "../../components/common/PageHeader";
-import { Button } from "../../components/common/Button";
-import { Modal } from "../../components/common/Modal";
-import { TEAM_PRESETS, AVAILABLE_ROLES_CATALOG } from "../../mock/mockData";
-import { useApp } from "../../context/AppContext";
-import { useAuth } from "../../context/AuthContext";
-import { useToast } from "../../context/ToastContext";
+import React, { useState, useMemo } from "react";
+import { Users, Minus, Plus, HardHat, Zap, Hammer, Wrench, Paintbrush } from "lucide-react";
+
+const ROLES = [
+  { id: "contractor", name: "Project Contractor", level: "Level 6", rate: 2500, icon: HardHat },
+  { id: "mason", name: "Lead Mason", level: "Level 5", rate: 1400, icon: Hammer },
+  { id: "labourer", name: "General Labourer", level: "Level 1", rate: 500, icon: Users },
+  { id: "electrician", name: "Electrician", level: "Level 4", rate: 900, icon: Zap },
+  { id: "plumber", name: "Plumber", level: "Level 4", rate: 800, icon: Wrench },
+  { id: "painter", name: "Painter", level: "Level 3", rate: 700, icon: Paintbrush },
+];
+
+const JOB_TYPES = ["House Construction", "Renovation", "Commercial Fit-out", "Factory Setup"];
 
 export const TeamBuilderPage = () => {
-  const navigate = useNavigate();
-  const { createBooking } = useApp();
-  const { currentUser } = useAuth();
-  const { addToast } = useToast();
+  const [jobType, setJobType] = useState("House Construction");
+  const [jobSize, setJobSize] = useState("");
+  const [counts, setCounts] = useState({
+    contractor: 1,
+    mason: 2,
+    labourer: 5,
+    electrician: 1,
+    plumber: 1,
+    painter: 0,
+  });
 
-  const [selectedPresetId, setSelectedPresetId] = useState("preset-house-construction");
-  const [teamName, setTeamName] = useState("House Construction Crew");
-  const [durationDays, setDurationDays] = useState(14);
-  const [siteLocation, setSiteLocation] = useState("Whitefield Infrastructure Site, Bengaluru, KA");
-  const [startDate, setStartDate] = useState("2026-08-20");
-
-  // Crew Roles in Current Custom Team
-  const [crewRoles, setCrewRoles] = useState(TEAM_PRESETS[0].roles);
-  const [requestModalOpen, setRequestModalOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-
-  // Load a preset template
-  const applyPreset = (preset) => {
-    setSelectedPresetId(preset.id);
-    setTeamName(preset.name);
-    setDurationDays(preset.defaultDurationDays);
-    setCrewRoles(JSON.parse(JSON.stringify(preset.roles)));
+  const updateCount = (id, delta) => {
+    setCounts((prev) => ({
+      ...prev,
+      [id]: Math.max(0, prev[id] + delta),
+    }));
   };
 
-  // Adjust role quantity
-  const handleQuantityChange = (trade, delta) => {
-    setCrewRoles((prev) =>
-      prev
-        .map((r) => {
-          if (r.trade === trade) {
-            const nextCount = Math.max(1, r.count + delta);
-            return { ...r, count: nextCount };
-          }
-          return r;
-        })
-        .filter((r) => r.count > 0)
-    );
-  };
+  const totalWorkers = useMemo(
+    () => Object.values(counts).reduce((sum, c) => sum + c, 0),
+    [counts]
+  );
 
-  // Remove role
-  const handleRemoveRole = (trade) => {
-    setCrewRoles((prev) => prev.filter((r) => r.trade !== trade));
-  };
-
-  // Add role from catalog
-  const handleAddRoleFromCatalog = (roleCatalogItem) => {
-    setCrewRoles((prev) => {
-      const exists = prev.find((r) => r.trade === roleCatalogItem.trade);
-      if (exists) {
-        return prev.map((r) =>
-          r.trade === roleCatalogItem.trade ? { ...r, count: r.count + 1 } : r
-        );
-      }
-      return [
-        ...prev,
-        {
-          trade: roleCatalogItem.trade,
-          level: roleCatalogItem.level,
-          title: roleCatalogItem.title,
-          count: 1,
-          dailyRate: roleCatalogItem.dailyRate,
-        },
-      ];
-    });
-  };
-
-  // Calculations
-  const totalCrewSize = crewRoles.reduce((sum, r) => sum + r.count, 0);
-  const dailyCost = crewRoles.reduce((sum, r) => sum + r.count * r.dailyRate, 0);
-  const totalProjectCost = dailyCost * durationDays;
-
-  const handleRequestSubmit = (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-
-    setTimeout(() => {
-      setSubmitting(false);
-      const newBooking = createBooking({
-        workerId: "crew-" + Date.now(),
-        workerName: `${teamName} (${totalCrewSize} Multi-trade Workers)`,
-        workerTrade: "Multi-trade Turnkey Crew",
-        workerLevel: "Level 6 Contractor Supervised",
-        workerPhoto: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=300&q=80",
-        customerName: currentUser?.name || "Pooja Reddy",
-        jobTitle: `${teamName} - ${totalCrewSize} Member Deployment`,
-        jobDescription: `Turnkey team deployment for ${durationDays} days: ${crewRoles
-          .map((r) => `${r.count}x ${r.title}`)
-          .join(", ")}.`,
-        date: startDate,
-        timeSlot: "Full Project Hours",
-        duration: `${durationDays} Days`,
-        price: totalProjectCost,
-        location: siteLocation,
-      });
-
-      addToast(`Crew booking ${newBooking.id} submitted! Escrow secured.`, "success");
-      setRequestModalOpen(false);
-      navigate("/customer/bookings");
-    }, 800);
-  };
+  const totalCost = useMemo(
+    () =>
+      ROLES.reduce((sum, role) => sum + role.rate * counts[role.id], 0),
+    [counts]
+  );
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Interactive Team Builder"
-        subtitle="Assemble and customize turnkey multi-trade crews with transparent daily rates."
-        breadcrumb={<span>Customer &bull; Team Builder</span>}
-      />
-
-      {/* Preset Selector */}
-      <div className="bg-white p-5 rounded-lg border border-gray-200 shadow-subtle space-y-3">
-        <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
-          Quick Start: Choose a Preset Template
-        </span>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {TEAM_PRESETS.map((preset) => (
-            <button
-              key={preset.id}
-              type="button"
-              onClick={() => applyPreset(preset)}
-              className={`p-3.5 rounded-lg border text-left transition cursor-pointer ${
-                selectedPresetId === preset.id
-                  ? "border-[#2E6FB0] bg-[#EAF1FB] ring-2 ring-[#2E6FB0]"
-                  : "border-gray-200 bg-gray-50 hover:bg-white"
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold text-gray-900">{preset.name}</span>
-                <span className="text-[10px] font-semibold text-[#2E6FB0] bg-white px-2 py-0.5 rounded border border-blue-200">
-                  {preset.roles.reduce((s, r) => s + r.count, 0)} Crew
-                </span>
-              </div>
-              <p className="text-[11px] text-gray-500 line-clamp-2">{preset.description}</p>
-            </button>
-          ))}
-        </div>
+    <div className="px-4 sm:px-6 lg:px-6 py-6 max-w-6xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-2xl font-extrabold text-[#141821]">Team &amp; Crew Builder</h1>
+        <p className="text-sm text-slate-500 mt-1">
+          Building or renovating? Compose your crew and request everyone in one booking.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left: Interactive Crew Table & Catalog (8 Cols) */}
-        <div className="lg:col-span-8 space-y-5">
-          {/* Active Crew Roles Table */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-subtle overflow-hidden">
-            <div className="p-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left: Job details + crew composer */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Job details */}
+          <div className="bg-white rounded-xl border border-orange-100 p-5">
+            <h2 className="text-sm font-bold text-[#141821] mb-4">Job Details</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <h3 className="text-sm font-bold text-[#141821]">Active Crew Configuration</h3>
-                <p className="text-xs text-gray-500">Adjust role quantities or add new trade specialists</p>
+                <label className="text-xs font-medium text-slate-500 block mb-1.5">
+                  Job Type
+                </label>
+                <select
+                  value={jobType}
+                  onChange={(e) => setJobType(e.target.value)}
+                  className="w-full text-sm border border-orange-100 rounded-lg px-3 py-2.5 text-[#141821] focus:outline-none focus:border-orange-400"
+                >
+                  {JOB_TYPES.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <span className="text-xs font-bold bg-[#141821] text-white px-2.5 py-1 rounded">
-                Total Crew: {totalCrewSize}
-              </span>
+              <div>
+                <label className="text-xs font-medium text-slate-500 block mb-1.5">
+                  Approx. Size (sq. ft.)
+                </label>
+                <input
+                  type="text"
+                  value={jobSize}
+                  onChange={(e) => setJobSize(e.target.value)}
+                  placeholder="e.g. 1200"
+                  className="w-full text-sm border border-orange-100 rounded-lg px-3 py-2.5 text-[#141821] placeholder:text-slate-400 focus:outline-none focus:border-orange-400"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Crew composer */}
+          <div className="bg-white rounded-xl border border-orange-100 overflow-hidden">
+            <div className="px-5 py-4 border-b border-orange-100">
+              <h2 className="text-sm font-bold text-[#141821]">Compose Your Crew</h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Set how many of each role you need — remove roles you don't.
+              </p>
             </div>
 
-            <div className="divide-y divide-gray-100">
-              {crewRoles.map((role) => (
-                <div
-                  key={role.trade}
-                  className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#141821] text-white flex items-center justify-center font-bold text-xs shrink-0">
-                      L{role.level}
+            <div className="divide-y divide-orange-50">
+              {ROLES.map((role) => {
+                const Icon = role.icon;
+                const count = counts[role.id];
+                return (
+                  <div
+                    key={role.id}
+                    className="flex items-center justify-between px-5 py-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                          count > 0
+                            ? "bg-orange-100 text-orange-700"
+                            : "bg-slate-100 text-slate-400"
+                        }`}
+                      >
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-[#141821]">
+                          {role.name}
+                        </div>
+                        <div className="text-xs text-slate-500">
+                          {role.level} &middot; ₹{role.rate}/day
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 text-sm">{role.title}</h4>
-                      <span className="text-gray-500 text-[11px]">
-                        Level {role.level} &bull; ₹{role.dailyRate}/day per person
-                      </span>
-                    </div>
-                  </div>
 
-                  <div className="flex items-center gap-4 self-end sm:self-auto">
-                    {/* Quantity Selector */}
-                    <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 overflow-hidden">
+                    <div className="flex items-center gap-3">
                       <button
-                        type="button"
-                        onClick={() => handleQuantityChange(role.trade, -1)}
-                        className="p-1.5 hover:bg-gray-200 text-gray-700 cursor-pointer"
-                        title="Decrease"
+                        onClick={() => updateCount(role.id, -1)}
+                        className="w-7 h-7 rounded-lg border border-orange-200 flex items-center justify-center text-slate-500 hover:bg-orange-50 disabled:opacity-30"
+                        disabled={count === 0}
                       >
                         <Minus className="w-3.5 h-3.5" />
                       </button>
-                      <span className="px-3 py-1 font-bold text-sm text-gray-900 bg-white min-w-[32px] text-center">
-                        {role.count}
+                      <span className="w-6 text-center text-sm font-bold text-[#141821]">
+                        {count}
                       </span>
                       <button
-                        type="button"
-                        onClick={() => handleQuantityChange(role.trade, 1)}
-                        className="p-1.5 hover:bg-gray-200 text-gray-700 cursor-pointer"
-                        title="Increase"
+                        onClick={() => updateCount(role.id, 1)}
+                        className="w-7 h-7 rounded-lg border border-orange-200 flex items-center justify-center text-slate-500 hover:bg-orange-50"
                       >
                         <Plus className="w-3.5 h-3.5" />
                       </button>
                     </div>
-
-                    <div className="text-right min-w-[70px]">
-                      <span className="font-bold text-gray-900 block">₹{role.count * role.dailyRate}</span>
-                      <span className="text-[10px] text-gray-400">/day total</span>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveRole(role.trade)}
-                      className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"
-                      title="Remove Role"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Add Available Trade Catalog */}
-          <div className="bg-white p-5 rounded-lg border border-gray-200 shadow-subtle space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-700">
-              Add More Trade Specialists to Crew
-            </h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {AVAILABLE_ROLES_CATALOG.map((item) => (
-                <button
-                  key={item.trade}
-                  type="button"
-                  onClick={() => handleAddRoleFromCatalog(item)}
-                  className="p-2.5 rounded-lg border border-gray-200 bg-gray-50 hover:bg-blue-50 hover:border-[#2E6FB0] text-left transition cursor-pointer text-xs"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-gray-900">{item.trade}</span>
-                    <Plus className="w-3.5 h-3.5 text-[#2E6FB0]" />
-                  </div>
-                  <span className="text-[10px] text-gray-500 block mt-0.5">
-                    L{item.level} &bull; ₹{item.dailyRate}/day
-                  </span>
-                </button>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
 
-        {/* Right: Team Summary & Cost Estimate (4 Cols) */}
-        <div className="lg:col-span-4 space-y-4">
-          <div className="bg-white p-5 rounded-lg border border-gray-200 shadow-subtle space-y-4">
-            <div className="border-b border-gray-100 pb-3">
-              <h3 className="text-sm font-bold text-[#141821]">Team Deployment Estimate</h3>
-              <p className="text-xs text-gray-500">Live cost breakdown based on selected crew</p>
+        {/* Right: Summary */}
+        <div className="lg:col-span-1">
+          <div className="bg-[#141821] text-white rounded-xl p-5 sticky top-24">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-xs font-semibold text-orange-400 uppercase tracking-wide">
+                {jobType}
+              </span>
+              <span className="bg-orange-600 text-white px-2 py-0.5 rounded text-[10px] font-bold">
+                {totalWorkers} WORKERS
+              </span>
             </div>
 
-            <div className="space-y-3 text-xs">
-              <div>
-                <label className="block font-semibold text-gray-700 mb-1">Duration (Working Days)</label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    min="1"
-                    max="90"
-                    value={durationDays}
-                    onChange={(e) => setDurationDays(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="w-24 p-2 bg-gray-50 border border-gray-300 rounded font-bold text-sm text-center"
-                  />
-                  <span className="text-gray-500">Days project timeline</span>
+            <div className="space-y-2 mb-4">
+              {ROLES.filter((r) => counts[r.id] > 0).map((role) => (
+                <div
+                  key={role.id}
+                  className="flex justify-between items-center text-xs bg-white/5 rounded-lg px-3 py-2"
+                >
+                  <span>
+                    {counts[role.id]} &times; {role.name}
+                  </span>
+                  <span className="font-mono text-slate-300">
+                    ₹{(role.rate * counts[role.id]).toLocaleString("en-IN")}
+                  </span>
                 </div>
-              </div>
-
-              <div className="space-y-2 pt-2 border-t border-gray-100">
-                <div className="flex justify-between text-gray-600">
-                  <span>Total Crew Members:</span>
-                  <span className="font-bold text-gray-900">{totalCrewSize} Workers</span>
-                </div>
-
-                <div className="flex justify-between text-gray-600">
-                  <span>Daily Labor Combined:</span>
-                  <span className="font-bold text-gray-900">₹{dailyCost} / day</span>
-                </div>
-
-                <div className="flex justify-between text-gray-600">
-                  <span>Project Duration:</span>
-                  <span className="font-bold text-gray-900">{durationDays} Days</span>
-                </div>
-
-                <div className="pt-3 border-t border-gray-200 flex justify-between items-baseline text-sm font-bold text-[#141821]">
-                  <span>Total Estimated Cost</span>
-                  <span className="text-[#C1502E] text-xl font-extrabold">₹{totalProjectCost}</span>
-                </div>
-                <p className="text-[10px] text-gray-400">All wages backed by SkillBridge escrow assurance.</p>
-              </div>
-
-              <Button
-                variant="rust"
-                size="lg"
-                onClick={() => setRequestModalOpen(true)}
-                className="w-full font-bold text-sm mt-3"
-              >
-                Request This Team &rarr;
-              </Button>
+              ))}
+              {totalWorkers === 0 && (
+                <p className="text-xs text-slate-400 py-4 text-center">
+                  Add roles from the left to build your crew.
+                </p>
+              )}
             </div>
+
+            <div className="pt-3 border-t border-white/10 flex justify-between items-center mb-5">
+              <span className="text-sm font-bold">Estimated Daily Total</span>
+              <span className="text-lg font-extrabold text-orange-400">
+                ₹{totalCost.toLocaleString("en-IN")}
+              </span>
+            </div>
+
+            <button
+              disabled={totalWorkers === 0}
+              className="w-full bg-orange-600 hover:bg-orange-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold py-3 rounded-lg transition"
+            >
+              Request This Team
+            </button>
           </div>
         </div>
       </div>
-
-      {/* Confirmation Modal */}
-      <Modal
-        isOpen={requestModalOpen}
-        onClose={() => setRequestModalOpen(false)}
-        title="Confirm Turnkey Crew Request"
-        subtitle="Review your deployment details before locking escrow"
-        footer={
-          <>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setRequestModalOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="rust"
-              size="sm"
-              disabled={submitting}
-              onClick={handleRequestSubmit}
-            >
-              {submitting ? "Submitting Request..." : "Confirm & Deploy Crew"}
-            </Button>
-          </>
-        }
-      >
-        <form onSubmit={handleRequestSubmit} className="space-y-4 text-xs">
-          <div className="p-3 bg-gray-50 rounded-lg border border-gray-200 space-y-1">
-            <p className="font-bold text-gray-900 text-sm">{teamName}</p>
-            <p className="text-gray-600">
-              {totalCrewSize} workers deployed for {durationDays} days &bull; Total ₹{totalProjectCost}
-            </p>
-          </div>
-
-          <div>
-            <label className="block font-bold text-gray-800 mb-1">Project Site Location *</label>
-            <input
-              type="text"
-              value={siteLocation}
-              onChange={(e) => setSiteLocation(e.target.value)}
-              className="w-full p-2 bg-white border border-gray-300 rounded focus:ring-1 focus:ring-[#2E6FB0]"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block font-bold text-gray-800 mb-1">Target Start Date *</label>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              className="w-full p-2 bg-white border border-gray-300 rounded focus:ring-1 focus:ring-[#2E6FB0]"
-              required
-            />
-          </div>
-        </form>
-      </Modal>
     </div>
   );
 };
