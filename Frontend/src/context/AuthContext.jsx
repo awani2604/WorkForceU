@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     // Default logged in user for instant preview capability
     return {
       id: "usr-01",
-      name: "Pooja Reddy",
+      name: "Pooja",
       phone: "+91 98450 11223",
       role: "customer",
       location: "Bengaluru, KA",
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     let mockProfiles = {
       customer: {
         id: "usr-01",
-        name: "Pooja Reddy",
+        name: "Pooja ",
         phone: "+91 98450 11223",
         role: "customer",
         location: "Bengaluru, KA",
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
       },
       professional: {
         id: "w-101",
-        name: "Rameshwar Sharma",
+        name: "Rameshwar ",
         phone: "+91 98451 23890",
         role: "professional",
         trade: "Electrician",
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
       },
       trainee: {
         id: "tr-901",
-        name: "Bablu Paswan",
+        name: "Bablu",
         phone: "+91 91234 56780",
         role: "trainee",
         trade: "Electrician",
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
       },
       admin: {
         id: "adm-01",
-        name: "Admin Ravi Kumar",
+        name: "Admin ravi",
         phone: "+91 99000 88776",
         role: "admin",
         designation: "Platform Verification Lead",

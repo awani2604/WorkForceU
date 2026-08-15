@@ -12,7 +12,7 @@ export const LoginPage = () => {
   const { addToast } = useToast();
 
   const [authMethod, setAuthMethod] = useState("password"); // "password" | "otp"
-  const [phone, setPhone] = useState("9845011223");
+  const [phone, setPhone] = useState("12345678");
   const [password, setPassword] = useState("password123");
   const [selectedRole, setSelectedRole] = useState("customer");
   const [error, setError] = useState("");

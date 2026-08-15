@@ -18,7 +18,7 @@ import { SERVICE_CATEGORIES, MOCK_WORKERS } from "../../mock/mockData";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
-  const sampleWorker = MOCK_WORKERS[0]; // Rameshwar Sharma
+  const sampleWorker = MOCK_WORKERS[0]; 
 
   return (
     <div className="min-h-screen bg-white text-[#141821] flex flex-col">
