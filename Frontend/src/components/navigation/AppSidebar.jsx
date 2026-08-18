@@ -29,21 +29,13 @@ export const AppSidebar = ({
   const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
 
-  // ==============================
-  // ROLE CONFIGURATIONS
-  // ==============================
-
   const roleConfigs = {
     customer: {
       title: "Customer Portal",
       accentBg: "bg-[#2E6FB0]",
-
       activeBg:
         "bg-[#EAF1FB] text-[#2E6FB0] font-semibold border-r-4 border-[#2E6FB0]",
-
-      inactiveHover:
-        "hover:bg-gray-100 text-gray-700",
-
+      inactiveHover: "hover:bg-gray-100 text-gray-700",
       links: [
         {
           name: "Home",
@@ -67,7 +59,7 @@ export const AppSidebar = ({
         },
         {
           name: "Ratings & Reviews",
-          href: "/customer/bookings?tab=completed",
+          href: "/customer/reviews",
           icon: Star,
         },
         {
@@ -81,13 +73,9 @@ export const AppSidebar = ({
     professional: {
       title: "Professional Portal",
       accentBg: "bg-[#C1502E]",
-
       activeBg:
         "bg-orange-50 text-[#C1502E] font-semibold border-r-4 border-[#C1502E]",
-
-      inactiveHover:
-        "hover:bg-gray-100 text-gray-700",
-
+      inactiveHover: "hover:bg-gray-100 text-gray-700",
       links: [
         {
           name: "Dashboard",
@@ -120,13 +108,9 @@ export const AppSidebar = ({
     trainee: {
       title: "Trainee Portal",
       accentBg: "bg-[#1D8C6C]",
-
       activeBg:
         "bg-emerald-50 text-[#1D8C6C] font-semibold border-r-4 border-[#1D8C6C]",
-
-      inactiveHover:
-        "hover:bg-gray-100 text-gray-700",
-
+      inactiveHover: "hover:bg-gray-100 text-gray-700",
       links: [
         {
           name: "Home Dashboard",
@@ -164,13 +148,9 @@ export const AppSidebar = ({
     admin: {
       title: "Admin Console",
       accentBg: "bg-[#7C6BC4]",
-
       activeBg:
         "bg-purple-50 text-[#7C6BC4] font-semibold border-r-4 border-[#7C6BC4]",
-
-      inactiveHover:
-        "hover:bg-gray-100 text-gray-700",
-
+      inactiveHover: "hover:bg-gray-100 text-gray-700",
       links: [
         {
           name: "Dashboard Overview",
@@ -201,12 +181,7 @@ export const AppSidebar = ({
     },
   };
 
-  const activeConfig =
-    roleConfigs[role] || roleConfigs.customer;
-
-  // ==============================
-  // HANDLE NAVIGATION
-  // ==============================
+  const activeConfig = roleConfigs[role] || roleConfigs.customer;
 
   const handleLinkClick = (href) => {
     navigate(href);
@@ -216,62 +191,20 @@ export const AppSidebar = ({
     }
   };
 
-  // ==============================
-  // CHECK EXACT ACTIVE LINK
-  // ==============================
-
   const isLinkActive = (href) => {
-    // Split path and query string
-    const [linkPath, linkQuery = ""] = href.split("?");
-
-    // Current pathname
-    const currentPath = location.pathname;
-
-    // Current query string without ?
-    const currentQuery = location.search.replace("?", "");
-
-    // If the link has NO query parameters
-    if (!linkQuery) {
-      // It should only be active if:
-      // pathname matches AND current page has no query parameters
-      return (
-        currentPath === linkPath &&
-        currentQuery === ""
-      );
-    }
-
-    // If the link HAS query parameters
-    return (
-      currentPath === linkPath &&
-      currentQuery === linkQuery
-    );
+    return location.pathname === href;
   };
 
   return (
     <aside
-      className={`
-        w-64
-        bg-white
-        border-r
-        border-gray-200
-        flex
-        flex-col
-        justify-between
-        shrink-0
-        select-none
-        ${
-          isMobile
-            ? "h-full"
-            : "min-h-[calc(100vh-4rem)] hidden md:flex"
-        }
-      `}
+      className={`w-64 bg-white border-r border-gray-200 flex flex-col justify-between shrink-0 select-none ${
+        isMobile
+          ? "h-full"
+          : "min-h-[calc(100vh-4rem)] hidden md:flex"
+      }`}
     >
-      {/* ============================== */}
-      {/* TOP SECTION */}
-      {/* ============================== */}
-
       <div>
-        {/* MODULE BRAND */}
+        {/* Module Brand */}
         <div className="p-4 border-b border-gray-100 bg-gray-50/70">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
@@ -284,59 +217,31 @@ export const AppSidebar = ({
           </div>
         </div>
 
-        {/* ============================== */}
-        {/* NAVIGATION */}
-        {/* ============================== */}
-
+        {/* Navigation */}
         <nav className="p-3 space-y-1">
           {activeConfig.links.map((link) => {
             const Icon = link.icon;
-
             const isActive = isLinkActive(link.href);
 
             return (
               <button
                 key={link.name}
                 type="button"
-                onClick={() =>
-                  handleLinkClick(link.href)
-                }
-                className={`
-                  w-full
-                  flex
-                  items-center
-                  justify-between
-                  px-3
-                  py-2.5
-                  rounded-md
-                  text-xs
-                  transition-colors
-                  cursor-pointer
-                  text-left
-                  ${
-                    isActive
-                      ? activeConfig.activeBg
-                      : activeConfig.inactiveHover
-                  }
-                `}
+                onClick={() => handleLinkClick(link.href)}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md text-xs transition-colors cursor-pointer text-left ${
+                  isActive
+                    ? activeConfig.activeBg
+                    : activeConfig.inactiveHover
+                }`}
               >
                 <div className="flex items-center gap-3">
                   <Icon
-                    className={`
-                      w-4
-                      h-4
-                      shrink-0
-                      ${
-                        isActive
-                          ? ""
-                          : "text-gray-400"
-                      }
-                    `}
+                    className={`w-4 h-4 shrink-0 ${
+                      isActive ? "" : "text-gray-400"
+                    }`}
                   />
 
-                  <span>
-                    {link.name}
-                  </span>
+                  <span>{link.name}</span>
                 </div>
 
                 {isActive && (
@@ -348,10 +253,7 @@ export const AppSidebar = ({
         </nav>
       </div>
 
-      {/* ============================== */}
-      {/* USER FOOTER */}
-      {/* ============================== */}
-
+      {/* User Footer */}
       <div className="p-4 border-t border-gray-200 bg-gray-50">
         <div className="flex items-center gap-3 mb-3">
           <img
@@ -376,38 +278,16 @@ export const AppSidebar = ({
           </div>
         </div>
 
-        {/* SIGN OUT */}
-
         <button
           type="button"
           onClick={() => {
             logout();
             navigate("/login");
           }}
-          className="
-            w-full
-            flex
-            items-center
-            justify-center
-            gap-1.5
-            py-1.5
-            px-3
-            rounded
-            text-xs
-            text-red-600
-            bg-white
-            border
-            border-gray-300
-            hover:bg-red-50
-            transition
-            cursor-pointer
-          "
+          className="w-full flex items-center justify-center gap-1.5 py-1.5 px-3 rounded text-xs text-red-600 bg-white border border-gray-300 hover:bg-red-50 transition cursor-pointer"
         >
           <LogOut className="w-3.5 h-3.5" />
-
-          <span>
-            Sign Out
-          </span>
+          <span>Sign Out</span>
         </button>
       </div>
     </aside>
