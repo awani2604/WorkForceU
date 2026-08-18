@@ -73,12 +73,6 @@ export const TopHeader = ({ onToggleMobileSidebar, role = "customer" }) => {
                   <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between">
                     <span className="text-xs font-bold text-gray-900">Notifications</span>
                     <span className="text-[10px] text-[#2E6FB0] font-semibold">Mark read</span>
-                  </div>
-                  <div className="max-h-60 overflow-y-auto text-xs divide-y divide-gray-100">
-                    <div className="p-3 hover:bg-gray-50">
-                      <p className="font-semibold text-gray-900">Booking BK-8091 Accepted</p>
-                      <p className="text-gray-500 text-[11px] mt-0.5">Rameshwar Sharma confirmed for Aug 12.</p>
-                    </div>
                     <div className="p-3 hover:bg-gray-50">
                       <p className="font-semibold text-gray-900">Apprenticeship Log Signed</p>
                       <p className="text-gray-500 text-[11px] mt-0.5">8 hours approved by Mohammad Arif.</p>
