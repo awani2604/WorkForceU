@@ -1,0 +1,119 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 900 220"
+  fill="none"
+>
+  <!-- Icon -->
+  <g transform="translate(20 25)">
+    <!-- People -->
+    <circle cx="45" cy="35" r="22" fill="#FFFFFF"/>
+    <circle cx="115" cy="35" r="22" fill="#FFFFFF"/>
+
+    <!-- Orange W -->
+    <path
+      d="M5 65L35 155L65 90L92 145L145 65H175L115 170C110 180 96 180 90 170L65 130L45 175C40 185 25 183 21 173L-15 65H5Z"
+      fill="#F97316"
+    />
+
+    <!-- White arm -->
+    <path
+      d="M115 75L82 145L100 165C106 172 116 170 120 162L158 75H115Z"
+      fill="#FFFFFF"
+    />
+
+    <!-- Handshake -->
+    <path
+      d="M48 135L70 118L92 132L78 145L95 158L82 172L62 155L50 165L35 148L48 135Z"
+      fill="#FFFFFF"
+    />
+
+    <!-- Orange handshake details -->
+    <path
+      d="M63 145L78 157L70 165L55 153L63 145Z"
+      fill="#F97316"
+    />
+
+    <!-- Hard Hat -->
+    <path
+      d="M90 35C90 17 104 5 120 5C136 5 150 17 150 35V40H90V35Z"
+      fill="#F97316"
+    />
+
+    <rect
+      x="86"
+      y="40"
+      width="68"
+      height="8"
+      rx="4"
+      fill="#F97316"
+    />
+
+    <path
+      d="M108 8V30M130 8V30"
+      stroke="#FFFFFF"
+      stroke-width="4"
+      stroke-linecap="round"
+    />
+  </g>
+
+  <!-- Divider -->
+  <rect
+    x="220"
+    y="30"
+    width="4"
+    height="160"
+    rx="2"
+    fill="#F97316"
+  />
+
+  <!-- Work -->
+  <text
+    x="255"
+    y="120"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="76"
+    font-weight="800"
+    fill="#FFFFFF"
+  >Work</text>
+
+  <!-- Force -->
+  <text
+    x="430"
+    y="120"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="76"
+    font-weight="800"
+    fill="#F97316"
+  >Force</text>
+
+  <!-- U - no gap -->
+  <text
+    x="650"
+    y="120"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="76"
+    font-weight="800"
+    fill="#FFFFFF"
+  >U</text>
+
+  <!-- Growth arrow -->
+  <path
+    d="M690 78V50M690 50L674 66M690 50L706 66"
+    stroke="#F97316"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Tagline -->
+  <text
+    x="435"
+    y="160"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="15"
+    font-weight="700"
+    letter-spacing="4"
+    fill="#FFFFFF"
+  >SKILL • CONNECT • GROW</text>
+
+</svg>

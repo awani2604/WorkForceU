@@ -23,19 +23,14 @@ export const PublicNavbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded bg-[#C1502E] flex items-center justify-center font-black text-white text-sm tracking-wider shadow-sm">
-              WF
-            </div>
-            <div>
-              <span className="text-base sm:text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5">
-                WorkForceU <span className="text-[#C1502E]">India</span>
-              </span>
-              <span className="text-[10px] text-gray-400 block -mt-1 font-medium tracking-wide">
-                Learn. Certify. Work. Grow.
-              </span>
-            </div>
-          </Link>
+{/* Brand Logo */}
+<Link to="/" className="flex items-center">
+  <img
+    src="/WorkForceU-logo.svg"
+    alt="WorkForceU India"
+    className="h-14 w-auto object-contain"
+  />
+</Link>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
