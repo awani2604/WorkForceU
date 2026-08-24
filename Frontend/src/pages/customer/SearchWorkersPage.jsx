@@ -24,7 +24,7 @@ export const SearchWorkersPage = () => {
   const [selectedAvailability, setSelectedAvailability] = useState("All");
   const [isLoading, setIsLoading] = useState(false);
 
-  const tradesList = ["All", "Electrician", "Mason", "Plumber", "Painter", "Carpenter", "Contractor", "Driver", "Trainee (Assistant)"];
+  const tradesList = ["All", "Electrician", "Mason", "Plumber", "Painter", "Carpenter", "Contractor", "Driver"];
   const locationsList = ["All", "Bengaluru", "Delhi NCR", "Mumbai", "Kolkata", "Hyderabad", "Chandigarh", "Pune"];
   const levelsList = [
     { label: "All Levels (0-6)", value: "All" },

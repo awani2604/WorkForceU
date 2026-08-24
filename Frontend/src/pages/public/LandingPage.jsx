@@ -42,7 +42,7 @@ export const LandingPage = () => {
 
               <p className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
                 WorkForce India connects verified skilled tradespeople,
-                apprentices, and businesses. Powered by the{" "}
+                businesses. Powered by the{" "}
                 <strong className="text-[#141821]">
                   Digital Skill Passport
                 </strong>
@@ -167,7 +167,7 @@ export const LandingPage = () => {
               </h3>
 
               <p className="text-xs text-slate-500 leading-relaxed">
-                A transparent 3-step pipeline (Learn → Apprenticeship → Work)
+                A transparent 3-step pipeline (Assess → Verify → Work)
                 with tamper-proof Digital Skill Passports backed by master
                 supervisors.
               </p>
@@ -205,17 +205,16 @@ export const LandingPage = () => {
                 </span>
 
                 <h3 className="text-lg font-bold text-[#141821] mt-2 mb-2">
-                  Digital Learning
+                  Skill Assessment
                 </h3>
 
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Interactive mobile modules covering Indian electrical codes,
-                  plumbing blueprints, masonry safety, and PPE standards.
+                  Trade-specific assessments covering safety standards, practical skills, and job readiness.
                 </p>
               </div>
 
               <div className="mt-4 pt-3 border-t border-orange-100 text-xs font-semibold text-orange-700">
-                Level 0 → Level 1 (Trainee)
+                Level 0 → Level 1 (Entry Worker)
               </div>
             </div>
 
@@ -230,12 +229,11 @@ export const LandingPage = () => {
                 </span>
 
                 <h3 className="text-lg font-bold text-[#141821] mt-2 mb-2">
-                  On-Site Apprenticeship
+                  Verified Work Experience
                 </h3>
 
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Trainees work under Level 4 & 5 certified supervisors. Hours
-                  and tasks are digitally signed on the verified job log.
+                  Professionals build verified work history through completed jobs, supervisor reviews, and digitally signed job records.
                 </p>
               </div>
 
@@ -292,10 +290,10 @@ export const LandingPage = () => {
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
               <div className="p-3 bg-orange-50 rounded border border-orange-100">
                 <span className="font-bold text-[#141821] block">
-                  Levels 0 & 1: Entry & Trainee
+                  Levels 0 & 1: Entry & Junior Worker
                 </span>
                 <span className="text-slate-500 mt-1 block">
-                  Digital modules, basic safety guidelines, tool orientation.
+                  Skill basics, safety guidelines, and tool orientation.
                 </span>
               </div>
 
@@ -304,8 +302,7 @@ export const LandingPage = () => {
                   Level 2: Assistant
                 </span>
                 <span className="text-slate-500 mt-1 block">
-                  Verified 300 hrs on-site apprenticeship with a licensed
-                  mentor.
+                  Verified job history and supervisor reviews build a trusted professional record.
                 </span>
               </div>
 

@@ -55,7 +55,6 @@ export const PublicNavbar = () => {
                   onClick={() => {
                     if (currentUser.role === "customer") navigate("/customer/dashboard");
                     else if (currentUser.role === "professional") navigate("/professional/dashboard");
-                    else if (currentUser.role === "trainee") navigate("/trainee/dashboard");
                     else navigate("/admin/dashboard");
                   }}
                   className="bg-white text-gray-900 border-gray-300 text-xs"
@@ -124,7 +123,6 @@ export const PublicNavbar = () => {
                     setMobileMenuOpen(false);
                     if (currentUser.role === "customer") navigate("/customer/dashboard");
                     else if (currentUser.role === "professional") navigate("/professional/dashboard");
-                    else if (currentUser.role === "trainee") navigate("/trainee/dashboard");
                     else navigate("/admin/dashboard");
                   }}
                 >

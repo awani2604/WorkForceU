@@ -74,8 +74,8 @@ export const TopHeader = ({ onToggleMobileSidebar, role = "customer" }) => {
                     <span className="text-xs font-bold text-gray-900">Notifications</span>
                     <span className="text-[10px] text-[#2E6FB0] font-semibold">Mark read</span>
                     <div className="p-3 hover:bg-gray-50">
-                      <p className="font-semibold text-gray-900">Apprenticeship Log Signed</p>
-                      <p className="text-gray-500 text-[11px] mt-0.5">8 hours approved by Mohammad Arif.</p>
+                      <p className="font-semibold text-gray-900">Worker Verification Updated</p>
+                      <p className="text-gray-500 text-[11px] mt-0.5">A recent worker verification record was updated.</p>
                     </div>
                   </div>
                 </div>
