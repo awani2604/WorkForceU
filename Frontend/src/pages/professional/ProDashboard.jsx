@@ -120,7 +120,7 @@ export const ProDashboard = () => {
           color="teal"
         />
         <StatCard
-          title="Apprentices Supervised"
+          title="Jobs Supervised"
           value="3 Active"
           subtitle="Bablu Paswan & 2 others"
           icon={Users}
@@ -133,7 +133,7 @@ export const ProDashboard = () => {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-sm font-bold text-[#141821]">National Skill Qualification Level</h3>
-            <p className="text-xs text-gray-500">Authorized for independent high-voltage execution & apprenticeship verification</p>
+            <p className="text-xs text-gray-500">Authorized for independent high-voltage execution & safety verification</p>
           </div>
           <Link to="/professional/passport">
             <span className="text-xs font-semibold text-[#C1502E] hover:underline">

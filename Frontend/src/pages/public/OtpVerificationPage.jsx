@@ -15,7 +15,7 @@ export const OtpVerificationPage = () => {
   const phone = searchParams.get("phone") || authPendingPhone || "9845011223";
   const role = searchParams.get("role") || authPendingRole || "customer";
 
-  const [digits, setDigits] = useState(["1", "2", "3", "4", "5", "6"]);
+  const [digits, setDigits] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(30);
   const [canResend, setCanResend] = useState(false);
   const [error, setError] = useState("");
@@ -81,7 +81,6 @@ export const OtpVerificationPage = () => {
         setTimeout(() => {
           if (role === "customer") navigate("/customer/dashboard");
           else if (role === "professional") navigate("/professional/dashboard");
-          else if (role === "trainee") navigate("/trainee/dashboard");
           else navigate("/admin/dashboard");
         }, 800);
       } else {

@@ -13,14 +13,12 @@
   --color-brand-orange-hover: #D4551F;
   --color-brand-orange-light: #FFF3EB;
 
-  /* Legacy / module accent colors — kept for role-based badges (Customer / Trainee / Admin) */
+  /* Legacy / module accent colors — kept for role-based badges (Customer / Admin) */
   --color-rust: #C1502E;
   --color-rust-hover: #A74123;
   --color-yellow: #F2B705;
   --color-customer-blue: #2E6FB0;
   --color-customer-blue-hover: #24588D;
-  --color-trainee-teal: #1D8C6C;
-  --color-trainee-teal-hover: #167056;
   --color-admin-purple: #7C6BC4;
   --color-admin-purple-hover: #6755B1;
 
