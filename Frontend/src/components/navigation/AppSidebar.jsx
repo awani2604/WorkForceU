@@ -6,19 +6,13 @@ import {
   CalendarCheck,
   Users,
   Star,
-  Settings,
   Briefcase,
-  Calendar,
   Award,
-  BookOpen,
-  HelpCircle,
-  FileText,
   ShieldCheck,
   BarChart3,
-  LogOut,
+  User,
   ChevronRight,
 } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
 
 export const AppSidebar = ({
   role = "customer",
@@ -27,7 +21,6 @@ export const AppSidebar = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { currentUser, logout } = useAuth();
 
   const roleConfigs = {
     customer: {
@@ -36,6 +29,7 @@ export const AppSidebar = ({
       activeBg:
         "bg-[#EAF1FB] text-[#2E6FB0] font-semibold border-r-4 border-[#2E6FB0]",
       inactiveHover: "hover:bg-gray-100 text-gray-700",
+
       links: [
         {
           name: "Home",
@@ -62,11 +56,6 @@ export const AppSidebar = ({
           href: "/customer/reviews",
           icon: Star,
         },
-        {
-          name: "Settings",
-          href: "/customer/settings",
-          icon: Settings,
-        },
       ],
     },
 
@@ -76,6 +65,7 @@ export const AppSidebar = ({
       activeBg:
         "bg-orange-50 text-[#C1502E] font-semibold border-r-4 border-[#C1502E]",
       inactiveHover: "hover:bg-gray-100 text-gray-700",
+
       links: [
         {
           name: "Dashboard",
@@ -88,59 +78,55 @@ export const AppSidebar = ({
           icon: Briefcase,
         },
         {
-          name: "Availability Calendar",
-          href: "/professional/availability",
-          icon: Calendar,
-        },
-        {
           name: "Skill Passport",
           href: "/professional/passport",
           icon: Award,
         },
         {
-          name: "Settings",
-          href: "/professional/settings",
-          icon: Settings,
+          name: "Verification",
+          href: "/professional/verification",
+          icon: ShieldCheck,
+        },
+        {
+          name: "Personal Information",
+          href: "/professional/personal-information",
+          icon: User,
         },
       ],
     },
 
     trainee: {
       title: "Trainee Portal",
-      accentBg: "bg-[#1D8C6C]",
+      accentBg: "bg-[#2E8B57]",
       activeBg:
-        "bg-emerald-50 text-[#1D8C6C] font-semibold border-r-4 border-[#1D8C6C]",
+        "bg-green-50 text-[#2E8B57] font-semibold border-r-4 border-[#2E8B57]",
       inactiveHover: "hover:bg-gray-100 text-gray-700",
+
       links: [
         {
-          name: "Home Dashboard",
+          name: "Dashboard",
           href: "/trainee/dashboard",
           icon: LayoutDashboard,
         },
         {
-          name: "Learning Content",
+          name: "Learning",
           href: "/trainee/learning",
-          icon: BookOpen,
+          icon: Search,
         },
         {
-          name: "Certification Quiz",
+          name: "Quiz",
           href: "/trainee/quiz",
-          icon: HelpCircle,
+          icon: CalendarCheck,
         },
         {
-          name: "Apprenticeship Log",
-          href: "/trainee/apprenticeship",
-          icon: FileText,
-        },
-        {
-          name: "My Skill Passport",
+          name: "Skill Passport",
           href: "/trainee/passport",
           icon: Award,
         },
         {
-          name: "Settings",
-          href: "/trainee/settings",
-          icon: Settings,
+          name: "Apprenticeship",
+          href: "/trainee/apprenticeship",
+          icon: Users,
         },
       ],
     },
@@ -151,6 +137,7 @@ export const AppSidebar = ({
       activeBg:
         "bg-purple-50 text-[#7C6BC4] font-semibold border-r-4 border-[#7C6BC4]",
       inactiveHover: "hover:bg-gray-100 text-gray-700",
+
       links: [
         {
           name: "Dashboard Overview",
@@ -161,11 +148,6 @@ export const AppSidebar = ({
           name: "User Management",
           href: "/admin/users",
           icon: Users,
-        },
-        {
-          name: "Certification Approvals",
-          href: "/admin/certifications",
-          icon: Award,
         },
         {
           name: "Verification Requests",
@@ -181,7 +163,8 @@ export const AppSidebar = ({
     },
   };
 
-  const activeConfig = roleConfigs[role] || roleConfigs.customer;
+  const activeConfig =
+    roleConfigs[role] || roleConfigs.customer;
 
   const handleLinkClick = (href) => {
     navigate(href);
@@ -197,99 +180,65 @@ export const AppSidebar = ({
 
   return (
     <aside
-      className={`w-64 bg-white border-r border-gray-200 flex flex-col justify-between shrink-0 select-none ${
+      className={`w-64 bg-white border-r border-gray-200 flex flex-col shrink-0 select-none ${
         isMobile
           ? "h-full"
           : "min-h-[calc(100vh-4rem)] hidden md:flex"
       }`}
     >
-      <div>
-        {/* Module Brand */}
-        <div className="p-4 border-b border-gray-100 bg-gray-50/70">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
-              {activeConfig.title}
-            </span>
+      {/* Portal Header */}
+      <div className="p-4 border-b border-gray-100 bg-gray-50/70">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
+            {activeConfig.title}
+          </span>
 
-            <span
-              className={`w-2.5 h-2.5 rounded-full ${activeConfig.accentBg}`}
-            />
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <nav className="p-3 space-y-1">
-          {activeConfig.links.map((link) => {
-            const Icon = link.icon;
-            const isActive = isLinkActive(link.href);
-
-            return (
-              <button
-                key={link.name}
-                type="button"
-                onClick={() => handleLinkClick(link.href)}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md text-xs transition-colors cursor-pointer text-left ${
-                  isActive
-                    ? activeConfig.activeBg
-                    : activeConfig.inactiveHover
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Icon
-                    className={`w-4 h-4 shrink-0 ${
-                      isActive ? "" : "text-gray-400"
-                    }`}
-                  />
-
-                  <span>{link.name}</span>
-                </div>
-
-                {isActive && (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                )}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
-
-      {/* User Footer */}
-      <div className="p-4 border-t border-gray-200 bg-gray-50">
-        <div className="flex items-center gap-3 mb-3">
-          <img
-            src={
-              currentUser?.avatar ||
-              "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"
-            }
-            alt={currentUser?.name || "User"}
-            className="w-9 h-9 rounded-full object-cover border border-gray-300"
+          <span
+            className={`w-2.5 h-2.5 rounded-full ${activeConfig.accentBg}`}
           />
-
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-bold text-gray-900 truncate">
-              {currentUser?.name || "Pooja Reddy"}
-            </p>
-
-            <p className="text-[11px] text-gray-500 capitalize truncate">
-              {currentUser?.trade
-                ? `${currentUser.trade} (L${currentUser.level})`
-                : currentUser?.role || "Customer"}
-            </p>
-          </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => {
-            logout();
-            navigate("/login");
-          }}
-          className="w-full flex items-center justify-center gap-1.5 py-1.5 px-3 rounded text-xs text-red-600 bg-white border border-gray-300 hover:bg-red-50 transition cursor-pointer"
-        >
-          <LogOut className="w-3.5 h-3.5" />
-          <span>Sign Out</span>
-        </button>
       </div>
+
+      {/* Main Navigation */}
+      <nav className="p-3 space-y-1">
+        {activeConfig.links.map((link) => {
+          const Icon = link.icon;
+          const isActive = isLinkActive(link.href);
+
+          return (
+            <button
+              key={link.name}
+              type="button"
+              onClick={() =>
+                handleLinkClick(link.href)
+              }
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md text-xs transition-colors cursor-pointer text-left ${
+                isActive
+                  ? activeConfig.activeBg
+                  : activeConfig.inactiveHover
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Icon
+                  className={`w-4 h-4 shrink-0 ${
+                    isActive
+                      ? ""
+                      : "text-gray-400"
+                  }`}
+                />
+
+                <span>{link.name}</span>
+              </div>
+
+              {isActive && (
+                <ChevronRight className="w-3.5 h-3.5" />
+              )}
+            </button>
+          );
+        })}
+      </nav>
     </aside>
   );
 };
+
+export default AppSidebar;

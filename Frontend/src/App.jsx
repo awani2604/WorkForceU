@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   Routes,
   Route,
@@ -9,17 +10,24 @@ import { ToastProvider } from "./context/ToastContext";
 import { AuthProvider } from "./context/AuthContext";
 import { AppProvider } from "./context/AppContext";
 
-// Layout
 import { Layout } from "./components/navigation/Layout";
 
-// PUBLIC & AUTH
+
+/* =====================================================
+   PUBLIC & AUTH
+===================================================== */
+
 import { LandingPage } from "./pages/public/LandingPage";
 import { LoginPage } from "./pages/public/LoginPage";
 import { SignupPage } from "./pages/public/SignupPage";
 import { OtpVerificationPage } from "./pages/public/OtpVerificationPage";
 import { RoleSelectionPage } from "./pages/public/RoleSelectionPage";
 
-// CUSTOMER
+
+/* =====================================================
+   CUSTOMER
+===================================================== */
+
 import { CustomerDashboard } from "./pages/customer/CustomerDashboard";
 import { SearchWorkersPage } from "./pages/customer/SearchWorkersPage";
 import { WorkerProfilePage } from "./pages/customer/WorkerProfilePage";
@@ -28,30 +36,53 @@ import { MyBookingsPage } from "./pages/customer/MyBookingsPage";
 import { TeamBuilderPage } from "./pages/customer/TeamBuilderPage";
 import { RatingsReviewsPage } from "./pages/customer/RatingsReviewsPage";
 
-// PROFESSIONAL
+
+/* =====================================================
+   PROFESSIONAL
+===================================================== */
+
 import { ProDashboard } from "./pages/professional/ProDashboard";
 import { MyJobsPage } from "./pages/professional/MyJobsPage";
 import { AvailabilityPage } from "./pages/professional/AvailabilityPage";
+import { VerificationPage } from "./pages/professional/VerificationPage";
+import { PersonalInformationPage } from "./pages/professional/PersonalInformationPage";
+import { SettingsPage } from "./pages/professional/SettingsPage";
 
-// TRAINEE
+
+/* =====================================================
+   TRAINEE
+===================================================== */
+
 import { TraineeDashboard } from "./pages/trainee/TraineeDashboard";
 import { LearningPage } from "./pages/trainee/LearningPage";
 import { QuizPage } from "./pages/trainee/QuizPage";
 import { TraineePassportPage } from "./pages/trainee/TraineePassportPage";
 import { ApprenticeshipLogPage } from "./pages/trainee/ApprenticeshipLogPage";
 
-// ADMIN
+
+/* =====================================================
+   ADMIN
+===================================================== */
+
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { CertApprovalsPage } from "./pages/admin/CertApprovalsPage";
 
+
 function App() {
+
   return (
     <ToastProvider>
+
       <AuthProvider>
+
         <AppProvider>
+
           <Routes>
 
-            {/* ================= PUBLIC & AUTH ================= */}
+
+            {/* =================================================
+                PUBLIC & AUTH
+            ================================================= */}
 
             <Route
               path="/"
@@ -78,12 +109,16 @@ function App() {
               element={<RoleSelectionPage />}
             />
 
-            {/* ================= CUSTOMER ================= */}
+
+            {/* =================================================
+                CUSTOMER
+            ================================================= */}
 
             <Route
               path="/customer"
               element={<Layout role="customer" />}
             >
+
               <Route
                 index
                 element={
@@ -114,7 +149,6 @@ function App() {
                 element={<BookWorkerPage />}
               />
 
-              {/* MY BOOKINGS */}
               <Route
                 path="bookings"
                 element={<MyBookingsPage />}
@@ -125,7 +159,6 @@ function App() {
                 element={<TeamBuilderPage />}
               />
 
-              {/* RATINGS & REVIEWS */}
               <Route
                 path="reviews"
                 element={<RatingsReviewsPage />}
@@ -135,14 +168,19 @@ function App() {
                 path="settings"
                 element={<CustomerDashboard />}
               />
+
             </Route>
 
-            {/* ================= PROFESSIONAL ================= */}
+
+            {/* =================================================
+                PROFESSIONAL
+            ================================================= */}
 
             <Route
               path="/professional"
               element={<Layout role="professional" />}
             >
+
               <Route
                 index
                 element={
@@ -173,18 +211,39 @@ function App() {
                 element={<WorkerProfilePage />}
               />
 
+              {/* VERIFICATION */}
+
+              <Route
+                path="verification"
+                element={<VerificationPage />}
+              />
+
+              {/* PERSONAL INFORMATION */}
+
+              <Route
+                path="personal-information"
+                element={<PersonalInformationPage />}
+              />
+
+              {/* SETTINGS */}
+
               <Route
                 path="settings"
-                element={<ProDashboard />}
+                element={<SettingsPage />}
               />
+
             </Route>
 
-            {/* ================= TRAINEE ================= */}
+
+            {/* =================================================
+                TRAINEE
+            ================================================= */}
 
             <Route
               path="/trainee"
               element={<Layout role="trainee" />}
             >
+
               <Route
                 index
                 element={
@@ -224,14 +283,19 @@ function App() {
                 path="settings"
                 element={<TraineeDashboard />}
               />
+
             </Route>
 
-            {/* ================= ADMIN ================= */}
+
+            {/* =================================================
+                ADMIN
+            ================================================= */}
 
             <Route
               path="/admin"
               element={<Layout role="admin" />}
             >
+
               <Route
                 index
                 element={
@@ -266,9 +330,13 @@ function App() {
                 path="reports"
                 element={<AdminDashboard />}
               />
+
             </Route>
 
-            {/* ================= FALLBACK ================= */}
+
+            {/* =================================================
+                FALLBACK
+            ================================================= */}
 
             <Route
               path="*"
@@ -281,8 +349,11 @@ function App() {
             />
 
           </Routes>
+
         </AppProvider>
+
       </AuthProvider>
+
     </ToastProvider>
   );
 }
