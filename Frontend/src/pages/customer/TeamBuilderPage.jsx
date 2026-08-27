@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Users, Minus, Plus, HardHat, Zap, Hammer, Wrench, Paintbrush } from "lucide-react";
+import { Users, HardHat, Zap, Hammer, Wrench, Paintbrush, Star, Check } from "lucide-react";
 
 const ROLES = [
   { id: "contractor", name: "Project Contractor", level: "Level 6", rate: 2500, icon: HardHat },
@@ -10,36 +10,86 @@ const ROLES = [
   { id: "painter", name: "Painter", level: "Level 3", rate: 700, icon: Paintbrush },
 ];
 
+// Pool of actual bookable workers per role — pick exactly who you want
+const WORKER_POOL = {
+  contractor: [
+    { id: "c1", name: "Vikram Singh Rathore", rating: 4.9 },
+    { id: "c2", name: "Anil Kumar Verma", rating: 4.7 },
+  ],
+  mason: [
+    { id: "m1", name: "Suresh Yadav", rating: 4.8 },
+    { id: "m2", name: "Ramlal Chaudhary", rating: 4.6 },
+    { id: "m3", name: "Devendra Prasad", rating: 4.7 },
+    { id: "m4", name: "Mahesh Bhagat", rating: 4.5 },
+  ],
+  labourer: [
+    { id: "l1", name: "Bablu Paswan", rating: 4.5 },
+    { id: "l2", name: "Sunil Mahato", rating: 4.4 },
+    { id: "l3", name: "Ravi Oraon", rating: 4.6 },
+    { id: "l4", name: "Sanjay Kumar", rating: 4.3 },
+    { id: "l5", name: "Dilip Manjhi", rating: 4.5 },
+    { id: "l6", name: "Ashok Turi", rating: 4.4 },
+    { id: "l7", name: "Birendra Rai", rating: 4.6 },
+    { id: "l8", name: "Naresh Kisku", rating: 4.5 },
+  ],
+  electrician: [
+    { id: "e1", name: "Rameshwar Sharma", rating: 4.9 },
+    { id: "e2", name: "Mohammad Arif", rating: 4.7 },
+  ],
+  plumber: [
+    { id: "p1", name: "Ganesh Pillai", rating: 4.8 },
+    { id: "p2", name: "Irfan Sheikh", rating: 4.6 },
+  ],
+  painter: [
+    { id: "pt1", name: "Deepak Rawat", rating: 4.6 },
+    { id: "pt2", name: "Salim Ansari", rating: 4.5 },
+  ],
+};
+
+// Default pre-selected workers (so the page isn't empty on load)
+const DEFAULT_SELECTED = {
+  contractor: ["c1"],
+  mason: ["m1", "m2"],
+  labourer: ["l1", "l2", "l3", "l4", "l5"],
+  electrician: ["e1"],
+  plumber: ["p1"],
+  painter: [],
+};
+
 const JOB_TYPES = ["House Construction", "Renovation", "Commercial Fit-out", "Factory Setup"];
+
+const getInitials = (name) => name.split(" ").map((n) => n[0]).slice(0, 2).join("");
 
 export const TeamBuilderPage = () => {
   const [jobType, setJobType] = useState("House Construction");
   const [jobSize, setJobSize] = useState("");
-  const [counts, setCounts] = useState({
-    contractor: 1,
-    mason: 2,
-    labourer: 5,
-    electrician: 1,
-    plumber: 1,
-    painter: 0,
-  });
+  const [selected, setSelected] = useState(DEFAULT_SELECTED);
 
-  const updateCount = (id, delta) => {
-    setCounts((prev) => ({
-      ...prev,
-      [id]: Math.max(0, prev[id] + delta),
-    }));
+  const toggleWorker = (roleId, workerId) => {
+    setSelected((prev) => {
+      const current = prev[roleId] || [];
+      const isSelected = current.includes(workerId);
+      return {
+        ...prev,
+        [roleId]: isSelected
+          ? current.filter((id) => id !== workerId)
+          : [...current, workerId],
+      };
+    });
   };
 
   const totalWorkers = useMemo(
-    () => Object.values(counts).reduce((sum, c) => sum + c, 0),
-    [counts]
+    () => Object.values(selected).reduce((sum, arr) => sum + arr.length, 0),
+    [selected]
   );
 
   const totalCost = useMemo(
     () =>
-      ROLES.reduce((sum, role) => sum + role.rate * counts[role.id], 0),
-    [counts]
+      ROLES.reduce(
+        (sum, role) => sum + role.rate * (selected[role.id]?.length || 0),
+        0
+      ),
+    [selected]
   );
 
   return (
@@ -47,12 +97,12 @@ export const TeamBuilderPage = () => {
       <div className="mb-8">
         <h1 className="text-2xl font-extrabold text-[#141821]">Team &amp; Crew Builder</h1>
         <p className="text-sm text-slate-500 mt-1">
-          Building or renovating? Compose your crew and request everyone in one booking.
+          Building or renovating? Pick exactly which workers you want on your crew.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left: Job details + crew composer */}
+        {/* Left: Job details + worker picker */}
         <div className="lg:col-span-2 space-y-6">
           {/* Job details */}
           <div className="bg-white rounded-xl border border-orange-100 p-5">
@@ -89,28 +139,23 @@ export const TeamBuilderPage = () => {
             </div>
           </div>
 
-          {/* Crew composer */}
-          <div className="bg-white rounded-xl border border-orange-100 overflow-hidden">
-            <div className="px-5 py-4 border-b border-orange-100">
-              <h2 className="text-sm font-bold text-[#141821]">Compose Your Crew</h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Set how many of each role you need — remove roles you don't.
-              </p>
-            </div>
+          {/* Worker picker per role */}
+          <div className="space-y-4">
+            {ROLES.map((role) => {
+              const Icon = role.icon;
+              const pool = WORKER_POOL[role.id] || [];
+              const selectedIds = selected[role.id] || [];
 
-            <div className="divide-y divide-orange-50">
-              {ROLES.map((role) => {
-                const Icon = role.icon;
-                const count = counts[role.id];
-                return (
-                  <div
-                    key={role.id}
-                    className="flex items-center justify-between px-5 py-4"
-                  >
+              return (
+                <div
+                  key={role.id}
+                  className="bg-white rounded-xl border border-orange-100 overflow-hidden"
+                >
+                  <div className="px-5 py-4 border-b border-orange-100 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div
                         className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                          count > 0
+                          selectedIds.length > 0
                             ? "bg-orange-100 text-orange-700"
                             : "bg-slate-100 text-slate-400"
                         }`}
@@ -118,37 +163,59 @@ export const TeamBuilderPage = () => {
                         <Icon className="w-5 h-5" />
                       </div>
                       <div>
-                        <div className="text-sm font-semibold text-[#141821]">
-                          {role.name}
-                        </div>
+                        <div className="text-sm font-semibold text-[#141821]">{role.name}</div>
                         <div className="text-xs text-slate-500">
-                          {role.level} &middot; ₹{role.rate}/day
+                          {role.level} &middot; ₹{role.rate}/day each
                         </div>
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => updateCount(role.id, -1)}
-                        className="w-7 h-7 rounded-lg border border-orange-200 flex items-center justify-center text-slate-500 hover:bg-orange-50 disabled:opacity-30"
-                        disabled={count === 0}
-                      >
-                        <Minus className="w-3.5 h-3.5" />
-                      </button>
-                      <span className="w-6 text-center text-sm font-bold text-[#141821]">
-                        {count}
-                      </span>
-                      <button
-                        onClick={() => updateCount(role.id, 1)}
-                        className="w-7 h-7 rounded-lg border border-orange-200 flex items-center justify-center text-slate-500 hover:bg-orange-50"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
+                    <span className="text-xs font-bold text-orange-700 bg-orange-50 px-2.5 py-1 rounded-full">
+                      {selectedIds.length} selected
+                    </span>
                   </div>
-                );
-              })}
-            </div>
+
+                  <div className="p-4 flex flex-wrap gap-2">
+                    {pool.map((worker) => {
+                      const isSelected = selectedIds.includes(worker.id);
+                      return (
+                        <button
+                          key={worker.id}
+                          onClick={() => toggleWorker(role.id, worker.id)}
+                          className={`flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-lg border text-left transition ${
+                            isSelected
+                              ? "bg-orange-600 border-orange-600 text-white"
+                              : "bg-white border-orange-100 text-[#141821] hover:border-orange-300"
+                          }`}
+                        >
+                          <div
+                            className={`w-6 h-6 rounded-full text-[10px] font-bold flex items-center justify-center ${
+                              isSelected
+                                ? "bg-white/20 text-white"
+                                : "bg-orange-100 text-orange-700"
+                            }`}
+                          >
+                            {isSelected ? <Check className="w-3 h-3" /> : getInitials(worker.name)}
+                          </div>
+                          <span className="text-xs font-medium">{worker.name}</span>
+                          <span
+                            className={`flex items-center gap-0.5 text-[11px] ${
+                              isSelected ? "text-orange-100" : "text-slate-500"
+                            }`}
+                          >
+                            <Star
+                              className={`w-3 h-3 ${
+                                isSelected ? "fill-white text-white" : "fill-orange-400 text-orange-400"
+                              }`}
+                            />
+                            {worker.rating}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -164,23 +231,38 @@ export const TeamBuilderPage = () => {
               </span>
             </div>
 
-            <div className="space-y-2 mb-4">
-              {ROLES.filter((r) => counts[r.id] > 0).map((role) => (
-                <div
-                  key={role.id}
-                  className="flex justify-between items-center text-xs bg-white/5 rounded-lg px-3 py-2"
-                >
-                  <span>
-                    {counts[role.id]} &times; {role.name}
-                  </span>
-                  <span className="font-mono text-slate-300">
-                    ₹{(role.rate * counts[role.id]).toLocaleString("en-IN")}
-                  </span>
-                </div>
-              ))}
+            <div className="space-y-3 mb-4 max-h-80 overflow-y-auto pr-1">
+              {ROLES.filter((r) => (selected[r.id]?.length || 0) > 0).map((role) => {
+                const pool = WORKER_POOL[role.id] || [];
+                const chosen = pool.filter((w) => selected[role.id].includes(w.id));
+                return (
+                  <div key={role.id} className="bg-white/5 rounded-lg px-3 py-2.5">
+                    <div className="flex justify-between items-center text-xs mb-1.5">
+                      <span className="font-semibold text-orange-400">{role.name}</span>
+                      <span className="font-mono text-slate-300">
+                        ₹{(role.rate * chosen.length).toLocaleString("en-IN")}
+                      </span>
+                    </div>
+                    <div className="space-y-1">
+                      {chosen.map((worker) => (
+                        <div
+                          key={worker.id}
+                          className="flex justify-between items-center text-[11px] text-slate-300"
+                        >
+                          <span>{worker.name}</span>
+                          <span className="flex items-center gap-0.5 text-slate-400">
+                            <Star className="w-2.5 h-2.5 fill-orange-400 text-orange-400" />
+                            {worker.rating}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
               {totalWorkers === 0 && (
                 <p className="text-xs text-slate-400 py-4 text-center">
-                  Add roles from the left to build your crew.
+                  Select workers from the left to build your crew.
                 </p>
               )}
             </div>

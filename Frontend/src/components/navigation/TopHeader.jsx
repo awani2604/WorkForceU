@@ -5,7 +5,12 @@ import {
   Bell,
   Menu,
   ChevronDown,
+  ChevronRight,
   LogOut,
+  User,
+  FileText,
+  Trash2,
+  Settings,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
@@ -14,6 +19,7 @@ export const TopHeader = ({ onToggleMobileSidebar, role = "customer" }) => {
   const navigate = useNavigate();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [settingsExpanded, setSettingsExpanded] = useState(false);
 
   return (
     <header className="sticky top-0 z-30 bg-[#141821] text-white border-b border-gray-800">
@@ -73,6 +79,12 @@ export const TopHeader = ({ onToggleMobileSidebar, role = "customer" }) => {
                   <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between">
                     <span className="text-xs font-bold text-gray-900">Notifications</span>
                     <span className="text-[10px] text-[#2E6FB0] font-semibold">Mark read</span>
+                  </div>
+                  <div className="max-h-60 overflow-y-auto text-xs divide-y divide-gray-100">
+                    <div className="p-3 hover:bg-gray-50">
+                      <p className="font-semibold text-gray-900">Booking BK-8091 Accepted</p>
+                      <p className="text-gray-500 text-[11px] mt-0.5">Rameshwar Sharma confirmed for Aug 12.</p>
+                    </div>
                     <div className="p-3 hover:bg-gray-50">
                       <p className="font-semibold text-gray-900">Apprenticeship Log Signed</p>
                       <p className="text-gray-500 text-[11px] mt-0.5">8 hours approved by Mohammad Arif.</p>
@@ -103,13 +115,68 @@ export const TopHeader = ({ onToggleMobileSidebar, role = "customer" }) => {
               </button>
 
               {profileDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-52 bg-white text-gray-900 rounded-lg shadow-xl border border-gray-200 py-1.5 z-50">
+                <div className="absolute right-0 mt-2 w-60 bg-white text-gray-900 rounded-lg shadow-xl border border-gray-200 py-1.5 z-50">
                   <div className="px-4 py-2 border-b border-gray-100">
                     <p className="text-xs font-bold text-gray-900 truncate">{currentUser?.name}</p>
                     <p className="text-[11px] text-gray-500 capitalize">{currentUser?.role} Account</p>
                   </div>
 
                   <div className="py-1 text-xs">
+                    <button
+                      onClick={() => setSettingsExpanded((v) => !v)}
+                      className="w-full text-left px-4 py-2 hover:bg-gray-50 text-gray-700 flex items-center justify-between"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Settings className="w-3.5 h-3.5" />
+                        Settings
+                      </span>
+                      <ChevronRight
+                        className={`w-3.5 h-3.5 transition-transform ${
+                          settingsExpanded ? "rotate-90" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {settingsExpanded && (
+                      <div className="bg-gray-50/70">
+                        <button
+                          onClick={() => {
+                            setProfileDropdownOpen(false);
+                            setSettingsExpanded(false);
+                            navigate(`/${currentUser?.role || role}/settings`);
+                          }}
+                          className="w-full text-left pl-9 pr-4 py-2 hover:bg-gray-100 text-gray-700 flex items-center gap-2"
+                        >
+                          <User className="w-3.5 h-3.5" />
+                          User Profile
+                        </button>
+                        <button
+                          onClick={() => {
+                            setProfileDropdownOpen(false);
+                            setSettingsExpanded(false);
+                            navigate("/terms");
+                          }}
+                          className="w-full text-left pl-9 pr-4 py-2 hover:bg-gray-100 text-gray-700 flex items-center gap-2"
+                        >
+                          <FileText className="w-3.5 h-3.5" />
+                          Terms &amp; Conditions
+                        </button>
+                        <button
+                          onClick={() => {
+                            setProfileDropdownOpen(false);
+                            setSettingsExpanded(false);
+                            navigate(`/${currentUser?.role || role}/settings/delete-account`);
+                          }}
+                          className="w-full text-left pl-9 pr-4 py-2 hover:bg-red-50 text-red-600 flex items-center gap-2"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          Delete Account
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="py-1 text-xs border-t border-gray-100">
                     <button
                       onClick={() => {
                         setProfileDropdownOpen(false);

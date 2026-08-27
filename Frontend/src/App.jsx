@@ -27,6 +27,10 @@ import { BookWorkerPage } from "./pages/customer/BookWorkerPage";
 import { MyBookingsPage } from "./pages/customer/MyBookingsPage";
 import { TeamBuilderPage } from "./pages/customer/TeamBuilderPage";
 import { RatingsReviewsPage } from "./pages/customer/RatingsReviewsPage";
+import { ReadyMadeTeamsPage } from "./pages/customer/ReadyMadeTeamsPage";
+import { UserProfile } from "./pages/customer/settings/UserProfile";
+import { TermsAndConditions } from "./pages/customer/settings/TermsAndConditions";
+import { DeleteAccount } from "./pages/customer/settings/DeleteAccount";
 
 // PROFESSIONAL
 import { ProDashboard } from "./pages/professional/ProDashboard";
@@ -78,6 +82,13 @@ function App() {
               element={<RoleSelectionPage />}
             />
 
+            {/* Terms is a shared/top-level page — accessible from any role */}
+            <Route
+              path="/terms"
+              element={<TermsAndConditions />}
+            />
+
+
             {/* ================= CUSTOMER ================= */}
 
             <Route
@@ -114,7 +125,6 @@ function App() {
                 element={<BookWorkerPage />}
               />
 
-              {/* MY BOOKINGS */}
               <Route
                 path="bookings"
                 element={<MyBookingsPage />}
@@ -125,17 +135,29 @@ function App() {
                 element={<TeamBuilderPage />}
               />
 
-              {/* RATINGS & REVIEWS */}
+              <Route
+                path="ready-made-teams"
+                element={<ReadyMadeTeamsPage />}
+              />
+
               <Route
                 path="reviews"
                 element={<RatingsReviewsPage />}
               />
 
+              {/* CUSTOMER SETTINGS */}
               <Route
                 path="settings"
-                element={<CustomerDashboard />}
+                element={<UserProfile />}
               />
+
+              <Route
+                path="settings/delete-account"
+                element={<DeleteAccount />}
+              />
+
             </Route>
+
 
             {/* ================= PROFESSIONAL ================= */}
 
@@ -178,6 +200,7 @@ function App() {
                 element={<ProDashboard />}
               />
             </Route>
+
 
             {/* ================= TRAINEE ================= */}
 
@@ -226,6 +249,7 @@ function App() {
               />
             </Route>
 
+
             {/* ================= ADMIN ================= */}
 
             <Route
@@ -267,6 +291,7 @@ function App() {
                 element={<AdminDashboard />}
               />
             </Route>
+
 
             {/* ================= FALLBACK ================= */}
 

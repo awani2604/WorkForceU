@@ -62,11 +62,7 @@ export const AppSidebar = ({
           href: "/customer/reviews",
           icon: Star,
         },
-        {
-          name: "Settings",
-          href: "/customer/settings",
-          icon: Settings,
-        },
+        
       ],
     },
 
@@ -97,11 +93,7 @@ export const AppSidebar = ({
           href: "/professional/passport",
           icon: Award,
         },
-        {
-          name: "Settings",
-          href: "/professional/settings",
-          icon: Settings,
-        },
+        
       ],
     },
 
