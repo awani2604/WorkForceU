@@ -37,16 +37,8 @@ import { ProDashboard } from "./pages/professional/ProDashboard";
 import { MyJobsPage } from "./pages/professional/MyJobsPage";
 import { AvailabilityPage } from "./pages/professional/AvailabilityPage";
 
-// TRAINEE
-import { TraineeDashboard } from "./pages/trainee/TraineeDashboard";
-import { LearningPage } from "./pages/trainee/LearningPage";
-import { QuizPage } from "./pages/trainee/QuizPage";
-import { TraineePassportPage } from "./pages/trainee/TraineePassportPage";
-import { ApprenticeshipLogPage } from "./pages/trainee/ApprenticeshipLogPage";
-
 // ADMIN
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
-import { CertApprovalsPage } from "./pages/admin/CertApprovalsPage";
 
 function App() {
   return (
@@ -82,7 +74,7 @@ function App() {
               element={<RoleSelectionPage />}
             />
 
-            {/* Terms is a shared/top-level page — accessible from any role */}
+            {/* Terms is a shared/top-level page */}
             <Route
               path="/terms"
               element={<TermsAndConditions />}
@@ -146,6 +138,7 @@ function App() {
               />
 
               {/* CUSTOMER SETTINGS */}
+
               <Route
                 path="settings"
                 element={<UserProfile />}
@@ -155,7 +148,6 @@ function App() {
                 path="settings/delete-account"
                 element={<DeleteAccount />}
               />
-
             </Route>
 
 
@@ -202,54 +194,6 @@ function App() {
             </Route>
 
 
-            {/* ================= TRAINEE ================= */}
-
-            <Route
-              path="/trainee"
-              element={<Layout role="trainee" />}
-            >
-              <Route
-                index
-                element={
-                  <Navigate
-                    to="/trainee/dashboard"
-                    replace
-                  />
-                }
-              />
-
-              <Route
-                path="dashboard"
-                element={<TraineeDashboard />}
-              />
-
-              <Route
-                path="learning"
-                element={<LearningPage />}
-              />
-
-              <Route
-                path="quiz"
-                element={<QuizPage />}
-              />
-
-              <Route
-                path="passport"
-                element={<TraineePassportPage />}
-              />
-
-              <Route
-                path="apprenticeship"
-                element={<ApprenticeshipLogPage />}
-              />
-
-              <Route
-                path="settings"
-                element={<TraineeDashboard />}
-              />
-            </Route>
-
-
             {/* ================= ADMIN ================= */}
 
             <Route
@@ -272,18 +216,13 @@ function App() {
               />
 
               <Route
-                path="certifications"
-                element={<CertApprovalsPage />}
-              />
-
-              <Route
                 path="users"
                 element={<AdminDashboard />}
               />
 
               <Route
                 path="verifications"
-                element={<CertApprovalsPage />}
+                element={<AdminDashboard />}
               />
 
               <Route

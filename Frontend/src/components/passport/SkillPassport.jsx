@@ -136,9 +136,9 @@ export const SkillPassport = ({
           </div>
 
           <div className="p-3 rounded-lg border border-gray-200 bg-gray-50 text-center">
-            <span className="text-[11px] text-gray-500 font-medium block">Apprenticeship</span>
+            <span className="text-[11px] text-gray-500 font-medium block">Verified Work History</span>
             <span className="text-lg font-bold text-[#1D8C6C] mt-0.5 block">
-              {worker.apprenticeshipHours || 300} hrs
+              {worker.jobsCompleted || 0} jobs
             </span>
           </div>
 

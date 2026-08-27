@@ -10,9 +10,6 @@ import {
   Briefcase,
   Calendar,
   Award,
-  BookOpen,
-  HelpCircle,
-  FileText,
   ShieldCheck,
   BarChart3,
   LogOut,
@@ -96,47 +93,6 @@ export const AppSidebar = ({
         
       ],
     },
-
-    trainee: {
-      title: "Trainee Portal",
-      accentBg: "bg-[#1D8C6C]",
-      activeBg:
-        "bg-emerald-50 text-[#1D8C6C] font-semibold border-r-4 border-[#1D8C6C]",
-      inactiveHover: "hover:bg-gray-100 text-gray-700",
-      links: [
-        {
-          name: "Home Dashboard",
-          href: "/trainee/dashboard",
-          icon: LayoutDashboard,
-        },
-        {
-          name: "Learning Content",
-          href: "/trainee/learning",
-          icon: BookOpen,
-        },
-        {
-          name: "Certification Quiz",
-          href: "/trainee/quiz",
-          icon: HelpCircle,
-        },
-        {
-          name: "Apprenticeship Log",
-          href: "/trainee/apprenticeship",
-          icon: FileText,
-        },
-        {
-          name: "My Skill Passport",
-          href: "/trainee/passport",
-          icon: Award,
-        },
-        {
-          name: "Settings",
-          href: "/trainee/settings",
-          icon: Settings,
-        },
-      ],
-    },
-
     admin: {
       title: "Admin Console",
       accentBg: "bg-[#7C6BC4]",
@@ -153,11 +109,6 @@ export const AppSidebar = ({
           name: "User Management",
           href: "/admin/users",
           icon: Users,
-        },
-        {
-          name: "Certification Approvals",
-          href: "/admin/certifications",
-          icon: Award,
         },
         {
           name: "Verification Requests",

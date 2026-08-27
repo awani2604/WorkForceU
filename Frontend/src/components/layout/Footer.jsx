@@ -44,19 +44,19 @@ function Footer() {
 
           <div>
             <h5 className="text-xs font-bold uppercase tracking-wide text-slate-900 mb-4">
-              For Workers &amp; Trainees
+              For Workers
             </h5>
             <a href="/register-professional" className="block text-sm text-slate-500 hover:text-orange-600 mb-3">
               Register as Professional
             </a>
-            <a href="/courses" className="block text-sm text-slate-500 hover:text-orange-600 mb-3">
-              Digital Skill Courses
+            <a href="/professional/passport" className="block text-sm text-slate-500 hover:text-orange-600 mb-3">
+              Skill Passport
             </a>
-            <a href="/certification-exam" className="block text-sm text-slate-500 hover:text-orange-600 mb-3">
-              Certification Exam
+            <a href="/professional/availability" className="block text-sm text-slate-500 hover:text-orange-600 mb-3">
+              Availability Calendar
             </a>
-            <a href="/apprenticeship-log" className="block text-sm text-slate-500 hover:text-orange-600 mb-3">
-              Log Apprenticeship Hours
+            <a href="/professional/jobs" className="block text-sm text-slate-500 hover:text-orange-600 mb-3">
+              Manage Jobs
             </a>
           </div>
 
@@ -66,9 +66,6 @@ function Footer() {
             </h5>
             <a href="/admin" className="block text-sm text-slate-500 hover:text-orange-600 mb-3">
               Admin Dashboard
-            </a>
-            <a href="/certification-approvals" className="block text-sm text-slate-500 hover:text-orange-600 mb-3">
-              Certification Approvals
             </a>
             <span className="block text-sm text-slate-300 mb-3">
               Ministry of Skill Dev Aligned

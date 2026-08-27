@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Users, Briefcase, GraduationCap, ArrowRight, ShieldCheck } from "lucide-react";
+import { Users, Briefcase, ArrowRight, ShieldCheck } from "lucide-react";
 import { PublicNavbar } from "../../components/navigation/PublicNavbar";
 import { Button } from "../../components/common/Button";
 import { useAuth } from "../../context/AuthContext";
@@ -28,22 +28,12 @@ export const RoleSelectionPage = () => {
       id: "professional",
       title: "Skilled Professional",
       headline: "I'm an experienced worker",
-      description: "Get direct booking requests, manage your availability calendar, earn daily rates, and supervise apprentices.",
+      description: "Get direct booking requests, manage your availability calendar, earn daily rates, and supervise project crews.",
       icon: Briefcase,
       color: "border-[#C1502E] bg-orange-50/30",
       accent: "#C1502E",
       badge: "WORKER PORTAL"
     },
-    {
-      id: "trainee",
-      title: "Trainee / Apprentice",
-      headline: "I want to learn a skill & certify",
-      description: "Access mobile skill modules, log verified apprenticeship hours under master supervisors, and level up to certified status.",
-      icon: GraduationCap,
-      color: "border-[#1D8C6C] bg-emerald-50/30",
-      accent: "#1D8C6C",
-      badge: "LEARNER PORTAL"
-    }
   ];
 
   const handleContinue = () => {
@@ -51,7 +41,7 @@ export const RoleSelectionPage = () => {
     addToast(`Entering WorkForce as ${selectedRole.toUpperCase()}`, "success");
     if (selectedRole === "customer") navigate("/customer/dashboard");
     else if (selectedRole === "professional") navigate("/professional/dashboard");
-    else if (selectedRole === "trainee") navigate("/trainee/dashboard");
+    else navigate("/admin/dashboard");
   };
 
   return (
@@ -69,12 +59,12 @@ export const RoleSelectionPage = () => {
               How would you like to use WorkForce India?
             </h1>
             <p className="text-sm text-gray-600 max-w-lg mx-auto mt-2">
-              Select your primary role. You can switch between roles at any time from your workspace.
+              Select your primary role. You can switch between customer and professional workspaces at any time.
             </p>
           </div>
 
-          {/* 3 Selectable Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+          {/* Selectable Role Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
             {roles.map((role) => {
               const Icon = role.icon;
               const isSelected = selectedRole === role.id;
