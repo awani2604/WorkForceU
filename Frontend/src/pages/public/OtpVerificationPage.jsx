@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ShieldCheck, CheckCircle2, AlertCircle, RefreshCw, ArrowLeft } from "lucide-react";
 import { PublicNavbar } from "../../components/navigation/PublicNavbar";
 import { Button } from "../../components/common/Button";
@@ -7,13 +7,12 @@ import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 
 export const OtpVerificationPage = () => {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { verifyOtp, authPendingPhone, authPendingRole } = useAuth();
+  const { verifyOtp, resendOtp, authPendingPhone, authPendingRole } = useAuth();
   const { addToast } = useToast();
 
-  const phone = searchParams.get("phone") || authPendingPhone || "9845011223";
-  const role = searchParams.get("role") || authPendingRole || "customer";
+  const phone = authPendingPhone;
+  const role = authPendingRole || "customer";
 
   const [digits, setDigits] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(30);
@@ -23,6 +22,14 @@ export const OtpVerificationPage = () => {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const inputRefs = useRef([]);
+
+  // If someone lands here directly without a pending phone (e.g. page refresh lost context state),
+  // send them back to login rather than showing a broken form.
+  useEffect(() => {
+    if (!phone) {
+      navigate("/login", { replace: true });
+    }
+  }, [phone, navigate]);
 
   useEffect(() => {
     let interval = null;
@@ -41,7 +48,6 @@ export const OtpVerificationPage = () => {
     setDigits(newDigits);
     setError("");
 
-    // Auto-advance
     if (val && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -61,7 +67,7 @@ export const OtpVerificationPage = () => {
     }
   };
 
-  const handleVerify = (e) => {
+  const handleVerify = async (e) => {
     e.preventDefault();
     const code = digits.join("");
     if (code.length < 6) {
@@ -72,31 +78,39 @@ export const OtpVerificationPage = () => {
     setLoading(true);
     setError("");
 
-    setTimeout(() => {
-      setLoading(false);
-      const res = verifyOtp(code);
-      if (res.success) {
-        setIsSuccess(true);
-        addToast("Mobile verified! Welcome to WorkForceU India.", "success");
-        setTimeout(() => {
-          if (role === "customer") navigate("/customer/dashboard");
-          else if (role === "professional") navigate("/professional/dashboard");
-          else navigate("/admin/dashboard");
-        }, 800);
-      } else {
-        setError(res.message);
-      }
-    }, 600);
+    const res = await verifyOtp(code);
+
+    setLoading(false);
+
+    if (res.success) {
+      setIsSuccess(true);
+      addToast("Mobile verified! Welcome to WorkForceU India.", "success");
+      setTimeout(() => {
+        if (role === "customer") navigate("/customer/dashboard");
+        else if (role === "professional") navigate("/professional/dashboard");
+        else navigate("/admin/dashboard");
+      }, 800);
+    } else {
+      setError(res.message || "Incorrect or expired OTP. Please try again.");
+    }
   };
 
-  const handleResend = () => {
-    setDigits(["", "", "", "", "", ""]);
-    setTimer(30);
-    setCanResend(false);
+  const handleResend = async () => {
     setError("");
-    addToast("New 6-digit OTP sent to +91 " + phone, "info");
-    inputRefs.current[0]?.focus();
+    const res = await resendOtp();
+
+    if (res.success) {
+      setDigits(["", "", "", "", "", ""]);
+      setTimer(30);
+      setCanResend(false);
+      addToast("New 6-digit OTP sent to +91 " + phone, "info");
+      inputRefs.current[0]?.focus();
+    } else {
+      setError(res.message || "Could not resend OTP. Please try again shortly.");
+    }
   };
+
+  if (!phone) return null;
 
   return (
     <div className="min-h-screen bg-[#F7F4EA] flex flex-col">
@@ -112,9 +126,6 @@ export const OtpVerificationPage = () => {
             <p className="text-xs text-gray-500 mt-1">
               Enter the 6-digit OTP code sent to <strong className="text-gray-900">+91 {phone}</strong>
             </p>
-            <div className="mt-2 inline-block bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-1 rounded text-[11px] font-medium">
-              Demo Code: <span className="font-bold tracking-widest">123456</span>
-            </div>
           </div>
 
           {error && (
@@ -132,7 +143,6 @@ export const OtpVerificationPage = () => {
           )}
 
           <form onSubmit={handleVerify} className="space-y-6">
-            {/* 6 Digit Input Boxes */}
             <div className="flex justify-center gap-2 sm:gap-2.5" onPaste={handlePaste}>
               {digits.map((digit, i) => (
                 <input
@@ -164,7 +174,6 @@ export const OtpVerificationPage = () => {
             </Button>
           </form>
 
-          {/* Resend Timer */}
           <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
             <Link to="/login" className="flex items-center gap-1 text-gray-600 hover:text-gray-900">
               <ArrowLeft className="w-3.5 h-3.5" />

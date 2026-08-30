@@ -8,12 +8,8 @@ import {
   ArrowRight,
   Clock,
 } from "lucide-react";
-
-const STATS = [
-  { label: "Active Bookings", value: "3", icon: CalendarCheck },
-  { label: "Completed Jobs", value: "12", icon: Star },
-  { label: "Saved Workers", value: "7", icon: Users },
-];
+import { useAuth } from "../../context/AuthContext";
+import { useApp } from "../../context/AppContext";
 
 const RECENT_BOOKINGS = [
   { name: "Rameshwar Sharma", trade: "Electrician", date: "12 Aug", status: "In Progress" },
@@ -28,10 +24,24 @@ const STATUS_STYLES = {
 };
 
 export const CustomerDashboard = () => {
+  const { currentUser } = useAuth();
+  const { dashboardStats } = useApp();
+
+  const firstName = currentUser?.name?.split(" ")[0] || "there";
+
+  // "Saved Workers" has no backend feature yet, so it stays at 0 for now
+  const STATS = [
+    { label: "Active Bookings", value: String(dashboardStats.activeBookings), icon: CalendarCheck },
+    { label: "Completed Jobs", value: String(dashboardStats.completedJobs), icon: Star },
+    { label: "Saved Workers", value: "0", icon: Users },
+  ];
+
   return (
     <div className="px-4 sm:px-6 lg:px-6 py-6 max-w-6xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-extrabold text-[#141821]">Hey, Ramesh Kumar</h1>
+        <h1 className="text-2xl font-extrabold text-[#141821]">
+          Hey, {firstName}
+        </h1>
         <p className="text-sm text-slate-500 mt-1">
           Here's what's happening with your bookings today.
         </p>

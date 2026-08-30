@@ -8,7 +8,7 @@ import { useToast } from "../../context/ToastContext";
 
 export const SignupPage = () => {
   const navigate = useNavigate();
-  const { signup, initiateOtpFlow } = useAuth();
+  const { signup } = useAuth();
   const { addToast } = useToast();
 
   const [fullName, setFullName] = useState("");
@@ -16,8 +16,9 @@ export const SignupPage = () => {
   const [role, setRole] = useState("customer");
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -38,10 +39,21 @@ export const SignupPage = () => {
       return;
     }
 
-    signup(fullName.trim(), phone, role);
-    initiateOtpFlow(phone, role);
-    addToast("Account details saved. Verify your mobile with OTP.", "info");
-    navigate(`/verify-otp?phone=${phone}&role=${role}&signup=true`);
+    setLoading(true);
+
+    // signup() calls /api/auth/register, which creates the account AND sends the first OTP
+    // in one step — no separate initiateOtpFlow() call needed (that endpoint is for login only
+    // and would fail here since the mobile isn't verified yet).
+    const res = await signup(fullName.trim(), phone, role);
+
+    setLoading(false);
+
+    if (res.success) {
+      addToast("Account created. Verify your mobile with OTP.", "info");
+      navigate("/verify-otp");
+    } else {
+      setError(res.message || "Could not create account. Please try again.");
+    }
   };
 
   return (
@@ -171,10 +183,10 @@ export const SignupPage = () => {
               type="submit"
               variant="rust"
               size="md"
-              disabled={!agreeTerms}
+              disabled={!agreeTerms || loading}
               className="w-full font-semibold"
             >
-              Continue to OTP Verification →
+              {loading ? "Creating account..." : "Continue to OTP Verification →"}
             </Button>
           </form>
 

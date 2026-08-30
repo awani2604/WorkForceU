@@ -1,6 +1,9 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { useAuth } from "./AuthContext";
 
 const AppContext = createContext(null);
+
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const INITIAL_ADMIN_STATS = {
   totalUsers: 0,
@@ -14,11 +17,49 @@ const INITIAL_ADMIN_STATS = {
 };
 
 export const AppProvider = ({ children }) => {
+  const { authToken } = useAuth();
+
   const [workers, setWorkers] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [adminStats, setAdminStats] = useState(INITIAL_ADMIN_STATS);
-
   const [proAvailability, setProAvailability] = useState({});
+
+  // NEW: real dashboard numbers coming from the backend
+  const [dashboardStats, setDashboardStats] = useState({
+    activeBookings: 0,
+    completedJobs: 0,
+  });
+  const [dashboardStatsLoading, setDashboardStatsLoading] = useState(false);
+
+  useEffect(() => {
+    // If nobody is logged in yet, don't call the API
+    if (!authToken) return;
+
+    const fetchStats = async () => {
+      setDashboardStatsLoading(true);
+      try {
+        const res = await fetch(`${API_BASE}/api/bookings/stats`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+
+        if (!res.ok) throw new Error("Failed to load stats");
+
+        const data = await res.json();
+        setDashboardStats({
+          activeBookings: data.activeBookings,
+          completedJobs: data.completedJobs,
+        });
+      } catch (error) {
+        console.error("Could not load dashboard stats:", error.message);
+      } finally {
+        setDashboardStatsLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, [authToken]);
 
   const createBooking = (bookingData) => {
     const newBooking = {
@@ -93,6 +134,8 @@ export const AppProvider = ({ children }) => {
         setAdminStats,
         proAvailability,
         toggleDateAvailability,
+        dashboardStats,
+        dashboardStatsLoading,
       }}
     >
       {children}

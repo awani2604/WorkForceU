@@ -14,8 +14,9 @@ export const LoginPage = () => {
   const [phone, setPhone] = useState("");
   const [selectedRole, setSelectedRole] = useState("customer");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSendOtp = (e) => {
+  const handleSendOtp = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -24,9 +25,18 @@ export const LoginPage = () => {
       return;
     }
 
-    initiateOtpFlow(phone, selectedRole);
-    addToast(`6-digit OTP sent to +91 ${phone}`, "info");
-    navigate(`/verify-otp?phone=${phone}&role=${selectedRole}`);
+    setLoading(true);
+
+    const res = await initiateOtpFlow(phone, selectedRole);
+
+    setLoading(false);
+
+    if (res.success) {
+      addToast(`6-digit OTP sent to +91 ${phone}`, "info");
+      navigate("/verify-otp");
+    } else {
+      setError(res.message || "Could not send OTP. Please try again.");
+    }
   };
 
   return (
@@ -123,10 +133,11 @@ export const LoginPage = () => {
               type="submit"
               variant="rust"
               size="md"
+              disabled={loading}
               className="w-full font-semibold"
             >
-              Send 6-Digit OTP
-              <ArrowRight className="w-4 h-4 ml-1" />
+              {loading ? "Sending OTP..." : "Send 6-Digit OTP"}
+              {!loading && <ArrowRight className="w-4 h-4 ml-1" />}
             </Button>
           </form>
 

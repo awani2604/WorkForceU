@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js"
@@ -14,7 +15,9 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "mongoose": "^8.24.4"
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.24.4",
+    "twilio": "^6.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
